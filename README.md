@@ -18,7 +18,7 @@ Im Dev-Mode starten:
 ```sh
 npm start
 ``` 
-   - Hot-Reload verfügbar
+   - Hot-Reload verfügbar (Änderungen werden sofort sichtbar, kein restart nötig)
    - Öffnet automatisch in Google Chrome
    
 ---
