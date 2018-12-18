@@ -8,6 +8,11 @@ Enthält die wichtigsten Elemente für eine React App:
 Dependencies auf den aktuellen Stand von 18.12.2018
 
 ## Benutzung
+Vor dem ersten Start installieren:
+```sh
+npm install
+```
+---
 
 Im Dev-Mode starten:
 ```sh
