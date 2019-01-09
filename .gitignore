@@ -28,5 +28,5 @@ ehthumbs.db
 #####################
 *.lnk
 
-#JetBrain Project Files
+#JetBrains Project Files
 .idea/*
