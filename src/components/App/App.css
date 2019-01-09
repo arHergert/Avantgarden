@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Sansita:800i');
+
+body{
+    font-family: sans-serif;
+}
+
+/* Header - Text*/
+.header{
+    font-family: 'Sansita', sans-serif;
+    font-size: 2em;
+    text-align: center;
+    color: white;
+
+}
+
+/* Header - Background */
+.header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-bottom: 0.3em;
+
+    background: #67DA97;
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.title{
+    float: left;
+}
+
+.leaf-logo{
+    float: left;
+    width: 1.3em;
+    height: 1.3em;
+    margin-top: 0.1em;
+}
