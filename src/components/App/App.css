@@ -1,37 +1,87 @@
-@import url('https://fonts.googleapis.com/css?family=Sansita:800i');
 
+/**
+ * CONTENTS
+ *
+ *
+ *
+ * GENERIC
+ * Fonts........................Sansita
+ * Body Styles..................Body
+ *
+ * COMPONENTS
+ * Header Font..................Font and Text-Size
+ * Header Overall...............Background color and cohesion
+ * Header Text..................Text Wrapping
+ * Header Logo..................Logo Wrapping
+ *
+ * Main Section Height..........Begin and Ending of Content
+ */
+
+
+
+/* ------------------------------------------------------------------------- *\
+# Fonts
+\* ------------------------------------------------------------------------- */
+
+@font-face {
+    font-family: 'Sansita';
+    src: url('/src/resources/fonts/sansita.woff2') format("woff2"),
+         url('/src/resources/fonts/sansita.woff') format("woff"),
+         url('/src/resources/fonts/sansita.ttf') format("truetype");
+
+}
+
+/* ------------------------------------------------------------------------- *\
+# Body Styles
+\* ------------------------------------------------------------------------- */
 body{
     font-family: sans-serif;
 }
 
-/* Header - Text*/
+/* ------------------------------------------------------------------------- *\
+# Header
+\* ------------------------------------------------------------------------- */
+
+/* Header Font */
 .header{
     font-family: 'Sansita', sans-serif;
-    font-size: 2em;
-    text-align: center;
-    color: white;
 
+    font-size: 2em;
+    color: white;
 }
 
-/* Header - Background */
+/* Header Overall */
 .header{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    padding-bottom: 0.3em;
+    padding-bottom: 0.2em;
 
     background: #67DA97;
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
 
+/* Header Text */
 .title{
     float: left;
+    font-size: 115%;
+    margin-top: 0.2em;
+    margin-left: 44%;
 }
 
+/* Header Logo */
 .leaf-logo{
     float: left;
     width: 1.3em;
     height: 1.3em;
     margin-top: 0.1em;
+}
+
+/* ------------------------------------------------------------------------- *\
+# Main Section
+\* ------------------------------------------------------------------------- */
+
+.mainsec {
+    margin-top: 4em;
 }

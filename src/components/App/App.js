@@ -1,24 +1,35 @@
 import React, {Component, Fragment} from 'react';
+import Axios from "axios";
+import {BrowserRouter, Route, Link } from "react-router-dom";
 import "./App.css";
-import leafLogo from "../../resources/img/icons8-leaf-filled-50.png";
+import Header from "./Header";
+import Home from "../pages/Home";
+
+
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        };
     }
+
+    testLog =  () => {
+        return "LALALALAL";
+    };
 
     render() {
         return (
-            <Fragment>
-                <div className={"header"}>
-                    <span className={"title"}>
-                        Avantgarden
-                    </span>
-                    <img className={"leaf-logo"} src={leafLogo}/>
-                </div>
+            <BrowserRouter>
+                <Fragment>
+                    <Header/>
+                    <Route exact path="/" component={Home}/>
+                </Fragment>
+            </BrowserRouter>
 
-            </Fragment>
         )
     }
-}
+
+}//end App
 
 export default App;
