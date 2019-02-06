@@ -15,6 +15,19 @@
  * Header Logo..................Logo Wrapping
  *
  * Main Section Height..........Begin and Ending of Content
+ *
+ * Search.......................
+ *
+ * Room List....................Box Flexing
+ * Room.........................Padding/Margin of whole text
+ * Room Texts...................Positioning of Text in divs
+ * Room Links...................Text Decorations of Router <Links> on Mainpage
+ * Room Titles
+ * Room Forms
+ *
+ *
+ *
+ *
  */
 
 
@@ -56,8 +69,6 @@ body{
     top: 0;
     left: 0;
     width: 100%;
-    padding-bottom: 0.2em;
-
     background: #67DA97;
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
@@ -66,7 +77,7 @@ body{
 .title{
     float: left;
     font-size: 115%;
-    margin-top: 0.2em;
+    margin-top: 0.1em;
     margin-left: 44%;
 }
 
@@ -75,7 +86,7 @@ body{
     float: left;
     width: 1.3em;
     height: 1.3em;
-    margin-top: 0.1em;
+    margin-top: 0.2em;
 }
 
 /* ------------------------------------------------------------------------- *\
@@ -83,5 +94,151 @@ body{
 \* ------------------------------------------------------------------------- */
 
 .mainsec {
-    margin-top: 4em;
+    margin-top: 5em;
+    margin-left: 2em;
+}
+
+/* ------------------------------------------------------------------------- *\
+# Search
+\* ------------------------------------------------------------------------- */
+
+.search-form {
+    padding-right: 40%;
+    padding-left: 0.5%;
+}
+
+.search-icon {
+    height: 65%;
+    width: 65%;
+}
+
+/* ------------------------------------------------------------------------- *\
+# Rooms
+\* ------------------------------------------------------------------------- */
+
+/* Room List */
+.rooms {
+    margin-top: 1em;
+    display: flex;
+    flex-flow: wrap;
+}
+
+
+/* Room */
+.room-block {
+    margin: 0.5em;
+    height: 10em;
+    width: 15em;
+    padding-top: 1em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    font-weight: bold;
+    color: white;
+    background: #67DA97;
+    box-shadow: 0px 2px 2px rgba(33, 150, 83, 0.7);
+    border-radius: 15px;
+}
+
+.room-new {
+    margin: 0.5em;
+    height: 10em;
+    width: 15em;
+    padding-top: 1em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    font-weight: bold;
+    color: darkgrey;
+    background: #f1f1f1 ;
+    border-radius: 15px;
+}
+
+.room-block:active {
+    background-color: #64cc8c;
+    transform: translateY(4px);
+}
+
+.room-new:active {
+    background-color: #e4e4e4;
+    transform: translateY(4px);
+}
+
+.room-icon {
+    height: 28px;
+    width: 28px;
+}
+
+.add-room-icon {
+    display: block;
+    height: 64px;
+    width: 64px;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+    margin-left: 35%;
+}
+
+.add-room-text {
+    margin-left: 4em;
+}
+
+/* Room Texts */
+
+.room-block_name {
+    margin-top: 1.5em;
+    margin-left: 1em;
+}
+
+.room-block-data {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.room-block_down {
+    float: left;
+    margin-left: 1em;
+}
+
+.room-block_usercount {
+    padding-right: 5em;
+}
+
+/* Room Links */
+.router-link:hover, .router-link:visited, .router-link:active, .router-link:link {
+    text-decoration: none;
+    color: darkgrey;
+}
+
+/* Room Titles */
+.room-title {
+    font-weight: bolder;
+    color: #333333;
+    font-size: 3em;
+    margin-left:35%;
+    margin-top: 2em;
+}
+
+/* Room Forms */
+.room-form {
+    margin-left: 35%;
+    margin-top: 2em;
+    width: 30%;
+}
+
+.room-form_label_text {
+    margin-left: 0.5em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+}
+
+.room-form_timer {
+    display: inline-flex;
+    margin-left: 0;
+}
+
+.room-form_timer_icon {
+    height: 40px;
+    width: 40px;
+}
+
+.room-form_inputmini {
+    width: 10em;
 }
