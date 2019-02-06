@@ -21,13 +21,20 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader:[ 'style-loader', 'css-loader' ]
+                //loader:[ 'style-loader', 'css-loader' ]
+                loader: "style-loader!css-loader"
             },
             {
-                test: /\.(png|jpg)$/,
+                test: /\.(png|jpg|svg)$/,
                 loader: 'url-loader?limit=8192'
             }
         ]
+    },
+    resolve: {
+      alias: {
+          "@resources": path.resolve(__dirname, "src/resources/"),
+          "@img": path.resolve(__dirname, "src/resources/img/")
+      },
     },
     devServer: {
       historyApiFallback: true
