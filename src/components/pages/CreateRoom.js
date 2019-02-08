@@ -1,7 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import Header from "../App/Headers/Header";
-
+import {withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import timerImg from "@img/rooms/baseline_timer_black_18dp.png";
+
 
 class CreateRoom extends Component {
 
@@ -10,6 +12,10 @@ class CreateRoom extends Component {
         //TODO
         //Methode in App aufrufen
         //State ändern
+    };
+
+    redirectToHome = () => {
+        this.props.history.push("/");
     };
 
     render() {
@@ -26,7 +32,16 @@ class CreateRoom extends Component {
                                     type="input"
                                     className={"form-control"}
                                     id="roomname"
-                                    placeholder="Raumnamen festlegen"
+                                    placeholder="Raumnamen festlegen *"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    required={true}
+                                    type="input"
+                                    className={"form-control"}
+                                    id="creatorname"
+                                    placeholder="Dein Nickname *"
                                 />
                             </div>
                             <div className="form-group">
@@ -37,7 +52,7 @@ class CreateRoom extends Component {
                                     id="maxPers"
                                     min="2"
                                     max="8"
-                                    placeholder="Anzahl max. Personen"
+                                    placeholder="Anzahl max. Personen *"
                                 />
                             </div>
                             <div className="form-group">
@@ -72,7 +87,18 @@ class CreateRoom extends Component {
                                     />
                                 </div>
                             </div>
+                            <button
+                                type="button"
+                                className="btn btn-primary btn-lg room-form_btn">
+                                Erstellen
+                            </button>
                         </form>
+                        <button
+                            type="button"
+                            onClick={this.redirectToHome}
+                            className="btn btn-secondary btn-lg room-form_btn_cancel">
+                            Abbrechen
+                        </button>
                     </div>
                 </article>
             </Fragment>
@@ -80,4 +106,8 @@ class CreateRoom extends Component {
     }
 }
 
-export default CreateRoom;
+CreateRoom.propTypes = {
+
+};
+
+export default withRouter(CreateRoom);

@@ -14,6 +14,8 @@
  * Header Text..................Text Wrapping
  * Header Logo..................Logo Wrapping
  *
+ * Back Header
+ *
  * Main Section Height..........Begin and Ending of Content
  *
  * Search.......................
@@ -25,8 +27,7 @@
  * Room Titles
  * Room Forms
  *
- *
- *
+ * User List
  *
  */
 
@@ -88,6 +89,14 @@ body{
     height: 1.3em;
     margin-top: 0.2em;
 }
+
+/* ------------------------------------------------------------------------- *\
+# Back Header
+\* ------------------------------------------------------------------------- */
+
+
+
+
 
 /* ------------------------------------------------------------------------- *\
 # Main Section
@@ -216,6 +225,15 @@ body{
     margin-top: 2em;
 }
 
+.room-title-flexible {
+    font-weight: bolder;
+    color: #333333;
+    font-size: 3em;
+    margin-left:35%;
+    margin-top: 2em;
+    margin-right: 25%;
+}
+
 /* Room Forms */
 .room-form {
     margin-left: 35%;
@@ -227,6 +245,8 @@ body{
     margin-left: 0.5em;
     margin-right: 1em;
     margin-top: 0.5em;
+    font-weight: bold;
+    color: #4F4F4F;
 }
 
 .room-form_timer {
@@ -241,4 +261,68 @@ body{
 
 .room-form_inputmini {
     width: 10em;
+    margin-right: 10em;
+}
+
+.room-form_btn {
+    margin-top: 3em;
+    font-size: 1.5em;
+    width: 23.5em;
+}
+
+.room-form_btn_cancel {
+    margin-top: 1em;
+    font-size: 1.5em;
+    width: 23.5em;
+}
+
+/* ------------------------------------------------------------------------- *\
+# User List
+\* ------------------------------------------------------------------------- */
+
+.userlist {
+    float: right;
+    margin-top: 7em;
+    margin-right: 7em;
+    width: 15em;
+    padding: 30px 15px;
+    border: 1px solid #f0f0f0;
+    background: #F2F2F2 ;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.10);
+    border-radius: 5px;
+}
+
+.side-title {
+    float: left;
+    margin-bottom: 10px;
+    padding-right: 0;
+    font-size: 20px;
+    color: #828282;
+    font-weight: bold;
+}
+.side-title_name {
+    margin-right: 2.4em;
+}
+.userlist {
+    margin-bottom: 0;
+}
+
+.userlist li {
+    color: #666;
+    font-size: 14px;
+    border-bottom: 1px solid #E0E0E0;;
+    line-height: 40px;
+    display: block;
+    text-decoration: none;
+}
+
+.userlist:last-child {
+    border-bottom: 0;
+}
+
+.userinfo-icon {
+    height: 24px;
+    width: 24px;
+    margin-bottom: 0.3em;
+    margin-right: 0.2em;
 }

@@ -1,23 +1,34 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from "prop-types";
 
 //Icons
 import lockImg from "@img/rooms/baseline_lock_white_18dp.png";
 import usersImg from "@img/rooms/baseline_person_white_18dp.png";
+import JoinRoom from "../pages/JoinRoom";
 
 class Room extends Component {
 
-
+    state = {
+      redirect: false
+    };
 
     renderLock= (hasPassword) => {
         return (hasPassword) ? <img className={"room-icon"} src={lockImg}/> : null;
     };
 
+    joinRoom = (data) => {
+        this.props.history.push({
+            pathname: "/joinroom",
+            data: data
+        });
+    };
+
     render() {
         const data = this.props.data;
-        console.log();
+
         return (
-            <div onClick={() => this.props.joinRoom(data.name)} className={"room-block"}>
+            <div onClick={() => this.joinRoom(data)} className={"room-block"}>
                 <div className={"room-block-data"}>
                     <div className={"room-block_name"}>
                         {data.name}
@@ -43,5 +54,5 @@ Room.propTypes = {
     data: PropTypes.object
 };
 
-export default Room;
+export default withRouter(Room);
 

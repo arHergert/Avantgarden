@@ -4,10 +4,6 @@ import addRoomImg from "@img/rooms/baseline_add_grey.png";
 
 class NewRoom extends Component {
 
-    redirectToCreateRoom = () => {
-      this.context.router.history.push("/createroom");
-    };
-
     render() {
         return (
             <Link to={"/createroom"} className={"router-link room-new"}>

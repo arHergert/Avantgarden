@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
-import {BrowserRouter, Route } from "react-router-dom";
+import {BrowserRouter, Route, withRouter } from "react-router-dom";
 import uuid from "uuid/v1";
 import "./App.css";
-import Header from "./Headers/Header";
 import Home from "../pages/Home";
-import Room from "../Home/Room";
-import CreateRoom from "../CreateRoom/CreateRoom";
+import CreateRoom from "../pages/CreateRoom";
+import JoinRoom from "../pages/JoinRoom";
 
 /**
  * Main entrypoint for Avantgarden
@@ -22,15 +21,12 @@ class App extends Component {
                 {id: uuid(), name:"KommDes Projekt - Flasche Designen", currPerson: 5, maxPerson:6, password: true},
                 {id: uuid(), name:"Haus", currPerson: 1, maxPerson:5, password: false},
                 {id: uuid(), name:"Fahrrad", currPerson: 2, maxPerson:5, password: true},
-                {id: uuid(), name:"Auto", currPerson: 3, maxPerson:4, password: true}
+                {id: uuid(), name:"Auto", currPerson: 3, maxPerson:4, password: true},
+                {id: uuid(), name:"Voller Raum", currPerson: 8, maxPerson:8, password: true}
             ]
         };
 
     }
-
-    joinRoom = (id) => {
-        console.log("Klick auf Raum '", id, "'");
-    };
 
 
     /**
@@ -56,6 +52,7 @@ class App extends Component {
      * <Route path="..." render={(props) => <Component beispielProp={...} />}
      */
     render() {
+
         return (
             <BrowserRouter>
                 <Fragment>
@@ -63,13 +60,16 @@ class App extends Component {
                     <Route exact path="/" render={(props) =>
                         <Home
                             rooms={this.state.rooms}
-                            joinRoom={this.joinRoom}
-                            newRoom={this.newRoom}
                         /> }/>
 
                     {/* Create new room */}
                     <Route exact path="/createroom" render={(props) =>
-                        <CreateRoom test={this.state.rooms[1]}/>
+                        <CreateRoom redirectToHome={this.redirectToHome}/>
+                    }/>
+
+                    {/* Join a room */}
+                    <Route exact path={"/joinroom"} render={(props) =>
+                        <JoinRoom/>
                     }/>
                 </Fragment>
             </BrowserRouter>

@@ -13,7 +13,6 @@ class RoomList extends Component {
             <Room
                 key={room.id}
                 data={room}
-                joinRoom={this.props.joinRoom}
             />
         ));
     }
@@ -22,6 +21,5 @@ class RoomList extends Component {
 //PropTypes
 RoomList.propTypes = {
     rooms: PropTypes.array.isRequired,
-    joinRoom: PropTypes.func,
 };
 export default RoomList;

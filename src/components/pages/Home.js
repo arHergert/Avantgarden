@@ -30,10 +30,9 @@ class Home extends Component {
                 <article className={"mainsec"}>
                    <Search/>
                     <div className={"rooms"}>
-                        <NewRoom newRoom={this.props.newRoom} />
+                        <NewRoom />
                         <RoomList
                             rooms={this.props.rooms}
-                            joinRoom={this.props.joinRoom}
                         />
                     </div>
                 </article>
@@ -45,7 +44,5 @@ class Home extends Component {
 //PropTypes
 Home.propTypes = {
     rooms: PropTypes.array.isRequired,
-    joinRoom: PropTypes.func,
-    newRoom: PropTypes.func
 };
 export default Home;
