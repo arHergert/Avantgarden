@@ -37,7 +37,9 @@ module.exports = {
       },
     },
     devServer: {
-      historyApiFallback: true
+      historyApiFallback: true,
+      host: "192.168.178.20", //Hier die IP Adresse des PCs angeben, von dem aus gestartet wird
+      port: 8080
     },
     plugins: [
         new HtmlWebpackPlugin({

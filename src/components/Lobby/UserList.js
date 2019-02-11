@@ -41,7 +41,7 @@ class UserList extends Component {
 
 UserList.propTypes = {
     users: PropTypes.array.isRequired,
-    maxPerson: PropTypes.number
+    maxPerson: PropTypes.number.isRequired
 };
 
 export default UserList;

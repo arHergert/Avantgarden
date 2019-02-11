@@ -5,12 +5,13 @@ import "./App.css";
 import Home from "../pages/Home";
 import CreateRoom from "../pages/CreateRoom";
 import JoinRoom from "../pages/JoinRoom";
+import Lobby from "../pages/Lobby";
 
 /**
  * Main entrypoint for Avantgarden
  *
  * Controls the Lifecycle and administration off all
- * pages with reac-router
+ * pages with react-router
  */
 class App extends Component {
     constructor(props) {
@@ -70,6 +71,11 @@ class App extends Component {
                     {/* Join a room */}
                     <Route exact path={"/joinroom"} render={(props) =>
                         <JoinRoom/>
+                    }/>
+
+                    {/* Lobby of room*/}
+                    <Route exact path={"/lobby"} render={(props) =>
+                        <Lobby/>
                     }/>
                 </Fragment>
             </BrowserRouter>

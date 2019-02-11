@@ -1,44 +1,35 @@
 import React, {Component, Fragment} from 'react';
+import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HeaderText from "../App/Headers/HeaderText";
 import UserList from "../Lobby/UserList";
 
 class Lobby extends Component {
+
+    leaveRoom = (userId) => {
+        //TODO: Remove user from room, update data and redirect to home
+        this.props.history.push("/");
+    };
+
     render() {
+        const room = this.props.location.data;
+        const func = this.props.location;
         return (
             <div>
                 <Fragment>
                     <HeaderText/>
                     <article className={"mainsec"}>
-                        <UserList users={} maxPerson={}/>
+                        {/*<UserList users={room.users} maxPerson={room.maxPerson}/>*/}
                         <div className={"room-title-flexible"}>
-                            Raum
-                            <span style={{color:"#219653", fontWeight: "bold"}}> {this.reduceRoomName(this.state.name)} </span>
-                            beitreten
+                            Im Raum -
+                            {/*<span style={{color:"#219653", fontWeight: "bold"}}> {func.reduceRoomName(room.name)} </span>*/}
                         </div>
-                        <div className={"room-form"}>
-                            <form onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                    <input
-                                        required={true}
-                                        type="input"
-                                        className={"form-control"}
-                                        id="nickname"
-                                        placeholder="Nickname eingeben *"
-                                    />
-                                </div>
-                                {/*{this.renderPasswordInput(room.password)}*/}
-                                <button
-                                    type="button"
-                                    className="btn btn-primary btn-lg room-form_btn">
-                                    Raum beitreten
-                                </button>
-                            </form>
+                        <div className={"lobby-room"}>
                             <button
                                 type="button"
-                                onClick={this.redirectToHome}
+                                onClick={this.leaveRoom}
                                 className="btn btn-secondary btn-lg room-form_btn_cancel">
-                                Abbrechen
+                                Raum verlassen
                             </button>
                         </div>
                     </article>
@@ -50,4 +41,4 @@ class Lobby extends Component {
 
 Lobby.propTypes = {};
 
-export default Lobby;
+export default withRouter(Lobby);

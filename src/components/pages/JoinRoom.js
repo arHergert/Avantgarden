@@ -33,6 +33,12 @@ class JoinRoom extends Component {
         //TODO
         //Methode in App aufrufen
         //State ändern
+
+        this.props.history.push({
+            pathname: "/lobby",
+            data: this.state,
+            reduceRoomName: this.reduceRoomName
+        });
     };
 
     redirectToHome = () => {
@@ -82,6 +88,7 @@ class JoinRoom extends Component {
                                 {/*{this.renderPasswordInput(room.password)}*/}
                                 <button
                                     type="button"
+                                    onClick={this.onSubmit}
                                     className="btn btn-primary btn-lg room-form_btn">
                                     Raum beitreten
                                 </button>
