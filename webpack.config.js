@@ -1,12 +1,13 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ip = require("ip");
 
 //Verzeichnise
 const SRC_DIR = path.resolve(__dirname, 'src');
 const OUTPUT_DIR = path.resolve(__dirname, 'dist');
 
 module.exports = {
-    entry: SRC_DIR + '/index.js',
+    entry: ["@babel/polyfill", SRC_DIR + '/index.js'],
     output: {
         path: OUTPUT_DIR,
         publicPath: '/',
@@ -33,12 +34,13 @@ module.exports = {
     resolve: {
       alias: {
           "@resources": path.resolve(__dirname, "src/resources/"),
-          "@img": path.resolve(__dirname, "src/resources/img/")
+          "@img": path.resolve(__dirname, "src/resources/img/"),
+          "@api": path.resolve(__dirname, "src/backend/")
       },
     },
     devServer: {
       historyApiFallback: true,
-      host: "192.168.178.20", //Hier die IP Adresse des PCs angeben, von dem aus gestartet wird
+      host: ip.address(), //Hier wird IP Adresse des PCs angeben, von dem aus gestartet wird
       port: 8080
     },
     plugins: [

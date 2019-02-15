@@ -20,8 +20,12 @@ class Room extends Component {
     joinRoom = (data) => {
         this.props.history.push({
             pathname: "/joinroom",
-            data: data
+            roomid: data
         });
+    };
+
+    roomCurrPerson = (users) => {
+        return users.length;
     };
 
     render() {
@@ -37,7 +41,7 @@ class Room extends Component {
                         <span className={"room-block_users"}>
                             <img className={"room-icon"} src={usersImg}/>
                             <span className={"room-block_usercount"}>
-                                {data.currPerson}/{data.maxPerson}
+                                {data.users.length}/{data.maxPerson}
                             </span>
                         </span>
                         <span className={"room-block_lock"}>

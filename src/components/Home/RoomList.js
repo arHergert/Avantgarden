@@ -11,7 +11,7 @@ class RoomList extends Component {
     render() {
         return this.filterFullRooms(this.props.rooms).map( room => (
             <Room
-                key={room.id}
+                key={room._id}
                 data={room}
             />
         ));

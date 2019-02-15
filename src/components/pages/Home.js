@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import Header from "../App/Headers/Header";
 import RoomList from "../Home/RoomList";
 import NewRoom from "../Home/NewRoom";
+import axios from "axios";
+import ip from "ip";
+const api = "http://"+ip.address()+':5000';
 
 /**
  * Mainpage of Avantgarden
@@ -23,6 +26,31 @@ import NewRoom from "../Home/NewRoom";
  */
 class Home extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            interval:{
+                fetchAllRooms: null
+            },
+            rooms: []
+        }
+    }
+
+    fetchAllRooms = async () => {
+        axios.get(api+"/api/rooms")
+            .then( res => this.setState({rooms: res.data}))
+            .catch(err => console.error(err));
+    };
+
+    componentDidMount(){
+        this.fetchAllRooms()
+            .then(this.state.interval.fetchAllRooms = setInterval(this.fetchAllRooms, 5000 ));
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.state.interval.fetchAllRooms);
+    }
+
     render() {
         return (
             <Fragment>
@@ -32,7 +60,7 @@ class Home extends Component {
                     <div className={"rooms"}>
                         <NewRoom />
                         <RoomList
-                            rooms={this.props.rooms}
+                            rooms={this.state.rooms}
                         />
                     </div>
                 </article>

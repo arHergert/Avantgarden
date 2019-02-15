@@ -20,8 +20,7 @@ class JoinRoom extends Component {
     };
 
     componentDidMount(){
-        /*let roomdata = this.props.location.data;
-        console.log("ID: ", roomdata.id , " Name: ", roomdata.name);*/
+
     }
 
     reduceRoomName = (name) => {
@@ -46,9 +45,9 @@ class JoinRoom extends Component {
     };
 
     renderPasswordInput = (hasPassword) => {
-        console.log(hasPassword);
         if (hasPassword){
-            return (<div className="form-group">
+            return (
+            <div className="form-group">
                 <input
                     required={true}
                     type="input"

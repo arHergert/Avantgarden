@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {BrowserRouter, Route, withRouter } from "react-router-dom";
+import axios from "axios";
 import uuid from "uuid/v1";
 import "./App.css";
 import Home from "../pages/Home";
@@ -17,6 +18,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: uuid(),
             rooms: [
                 {id: uuid(), name:"Test", currPerson: 4, maxPerson:6,  password: false},
                 {id: uuid(), name:"KommDes Projekt - Flasche Designen", currPerson: 5, maxPerson:6, password: true},
@@ -24,10 +26,11 @@ class App extends Component {
                 {id: uuid(), name:"Fahrrad", currPerson: 2, maxPerson:5, password: true},
                 {id: uuid(), name:"Auto", currPerson: 3, maxPerson:4, password: true},
                 {id: uuid(), name:"Voller Raum", currPerson: 8, maxPerson:8, password: true}
-            ]
+            ],
         };
 
     }
+
 
 
     /**
@@ -61,6 +64,7 @@ class App extends Component {
                     <Route exact path="/" render={(props) =>
                         <Home
                             rooms={this.state.rooms}
+                            userid={this.state.id}
                         /> }/>
 
                     {/* Create new room */}
