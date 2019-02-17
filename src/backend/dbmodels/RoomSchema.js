@@ -19,6 +19,14 @@ const RoomSchema = new mongoose.Schema({
         type: Number,
         "default": 120
     },
+    mainTopic: {
+        type: String,
+        "default": null
+    },
+    canvasData: {
+        type: mongoose.Schema.Types.Mixed,
+        "default": {}
+    },
     users: {
         type: Array,
         "default": []

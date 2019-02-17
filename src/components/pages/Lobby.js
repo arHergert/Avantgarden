@@ -11,6 +11,10 @@ class Lobby extends Component {
         this.props.history.push("/");
     };
 
+    reduceRoomName = (name) => {
+        return name.length > 20 ? (name.substring(0, 20) + "...") : name;
+    };
+
     render() {
         const room = this.props.location.data;
         const func = this.props.location;

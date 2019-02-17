@@ -9,18 +9,14 @@ import JoinRoom from "../pages/JoinRoom";
 
 class Room extends Component {
 
-    state = {
-      redirect: false
-    };
-
     renderLock= (hasPassword) => {
         return (hasPassword) ? <img className={"room-icon"} src={lockImg}/> : null;
     };
 
-    joinRoom = (data) => {
+    joinRoom = (id) => {
         this.props.history.push({
             pathname: "/joinroom",
-            roomid: data
+            roomid: id
         });
     };
 
@@ -30,9 +26,8 @@ class Room extends Component {
 
     render() {
         const data = this.props.data;
-
         return (
-            <div onClick={() => this.joinRoom(data)} className={"room-block"}>
+            <div onClick={() => this.joinRoom(data._id)} className={"room-block"}>
                 <div className={"room-block-data"}>
                     <div className={"room-block_name"}>
                         {data.name}

@@ -7,11 +7,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    maxPerson: {
-        type: Number,
-        required: true
+    subTopic: {
+        type: String,
+        "default": null
     },
-
+    drawOrder: {
+        type: Number,
+        "default": -1
+    }
 });
 
 module.exports = mongoose.model("user", UserSchema);

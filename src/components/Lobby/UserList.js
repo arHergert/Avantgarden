@@ -10,7 +10,7 @@ class UserList extends Component {
         return <Fragment>
             {users.map(user => (
                 <li
-                    key={user.id}>
+                    key={user._id}>
                     {user.name}
                 </li>
             ) )}

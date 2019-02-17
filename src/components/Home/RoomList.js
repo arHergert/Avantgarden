@@ -5,7 +5,7 @@ import Room from "./Room";
 class RoomList extends Component {
 
     filterFullRooms = (rooms) => {
-      return rooms.filter(room => room.maxPerson !== room.currPerson);
+      return rooms.filter(room => room.maxPerson !== room.users.length);
     };
 
     render() {

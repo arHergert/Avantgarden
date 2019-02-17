@@ -37,7 +37,7 @@ class Home extends Component {
     }
 
     fetchAllRooms = async () => {
-        axios.get(api+"/api/rooms")
+        axios.get(`${api}/api/rooms`)
             .then( res => this.setState({rooms: res.data}))
             .catch(err => console.error(err));
     };
@@ -71,6 +71,5 @@ class Home extends Component {
 
 //PropTypes
 Home.propTypes = {
-    rooms: PropTypes.array.isRequired,
 };
 export default Home;
