@@ -16,6 +16,7 @@ class Room extends Component {
     joinRoom = (id) => {
         this.props.history.push({
             pathname: "/joinroom",
+            search: id,
             roomid: id
         });
     };

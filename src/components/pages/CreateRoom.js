@@ -75,7 +75,7 @@ class CreateRoom extends Component {
                                 <img className={"room-form_timer_icon"} src={timerImg}/>
                                 <label
                                     className="room-form_label_text">
-                                    Zeit bis zum Start
+                                    Zeit zum Malen
                                 </label>
                                 <div className="room-form_inputmini">
                                     <input type="number"

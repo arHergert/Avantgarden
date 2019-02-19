@@ -5,8 +5,7 @@ import Header from "../App/Headers/Header";
 import RoomList from "../Home/RoomList";
 import NewRoom from "../Home/NewRoom";
 import axios from "axios";
-import ip from "ip";
-const api = "http://"+ip.address()+':5000';
+import ip from "../ipConfig";
 
 /**
  * Mainpage of Avantgarden
@@ -37,7 +36,7 @@ class Home extends Component {
     }
 
     fetchAllRooms = async () => {
-        axios.get(`${api}/api/rooms`)
+        axios.get(`${ip.client}/api/rooms`)
             .then( res => this.setState({rooms: res.data}))
             .catch(err => console.error(err));
     };

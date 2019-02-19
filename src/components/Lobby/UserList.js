@@ -12,10 +12,25 @@ class UserList extends Component {
                 <li
                     key={user._id}>
                     {user.name}
+                    <div className={"userlist_current-user"}>
+                        {this.setCurrentUser(user._id, this.props.currUser)}
+                    </div>
+                    {/*<span>
+                        {this.setAdmin(user._id, this.props.currUser)}
+                    </span>*/}
                 </li>
             ) )}
         </Fragment>
     };
+
+    setCurrentUser = (userId, currUserId) => {
+        return (userId === currUserId) ? "Ich" : "";
+    };
+
+    setAdmin = (userId,currUserId) => {
+
+    };
+
 
     userinfo = () => {
       return (""+this.props.users.length.toString()+"/"+this.props.maxPerson.toString());
@@ -41,7 +56,8 @@ class UserList extends Component {
 
 UserList.propTypes = {
     users: PropTypes.array.isRequired,
-    maxPerson: PropTypes.number.isRequired
+    maxPerson: PropTypes.number.isRequired,
+    currUser: PropTypes.string
 };
 
 export default UserList;

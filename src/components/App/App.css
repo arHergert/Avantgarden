@@ -14,7 +14,7 @@
  * Header Text..................Text Wrapping
  * Header Logo..................Logo Wrapping
  *
- * Back Header
+ * Textheader
  *
  * Main Section Height..........Begin and Ending of Content
  *
@@ -28,6 +28,10 @@
  * Room Forms
  *
  * User List
+ *
+ * Lobby
+ *
+ *
  *
  */
 
@@ -48,7 +52,7 @@
 /* ------------------------------------------------------------------------- *\
 # Body Styles
 \* ------------------------------------------------------------------------- */
-body{
+body {
     font-family: sans-serif;
 }
 
@@ -57,7 +61,7 @@ body{
 \* ------------------------------------------------------------------------- */
 
 /* Header Font */
-.header{
+.header {
     font-family: 'Sansita', sans-serif;
 
     font-size: 2em;
@@ -65,7 +69,7 @@ body{
 }
 
 /* Header Overall */
-.header{
+.header {
     position: absolute;
     top: 0;
     left: 0;
@@ -75,7 +79,7 @@ body{
 }
 
 /* Header Text */
-.title{
+.title {
     float: left;
     font-size: 115%;
     margin-top: 0.1em;
@@ -83,7 +87,7 @@ body{
 }
 
 /* Header Logo */
-.leaf-logo{
+.leaf-logo {
     float: left;
     width: 1.3em;
     height: 1.3em;
@@ -91,12 +95,16 @@ body{
 }
 
 /* ------------------------------------------------------------------------- *\
-# Back Header
+# Textheader
 \* ------------------------------------------------------------------------- */
 
+.header-text_left {
 
+}
 
+.header-text_right {
 
+}
 
 /* ------------------------------------------------------------------------- *\
 # Main Section
@@ -229,7 +237,7 @@ body{
     font-weight: bolder;
     color: #333333;
     font-size: 3em;
-    margin-left:35%;
+    margin-left:32%;
     margin-top: 2em;
     margin-right: 25%;
 }
@@ -282,7 +290,7 @@ body{
 
 .userlist {
     float: right;
-    margin-top: 7em;
+    margin-top: 8.6em;
     margin-right: 7em;
     width: 15em;
     padding: 30px 15px;
@@ -325,4 +333,52 @@ body{
     width: 24px;
     margin-bottom: 0.3em;
     margin-right: 0.2em;
+}
+
+.userlist_current-user {
+    float: right;
+    margin-right: 1em;
+    color: #219653;
+    font-weight: bold;
+}
+
+/* ------------------------------------------------------------------------- *\
+# Lobby
+\* ------------------------------------------------------------------------- */
+
+.lobby-room {
+    margin-left: 35%;
+    margin-top: 2em;
+    width: 30%;
+    padding: 30px 15px;
+    border: 1px solid #f0f0f0;
+    background: #F2F2F2 ;
+    color: #4F4F4F;
+    font-size: 2em;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.10);
+    border-radius: 5px;
+    display: block;
+}
+
+.lobby_userlist {
+    float: right;
+}
+
+.lobby_leave-btn {
+    position: fixed;
+    bottom: 15em;
+    right: 10em;
+
+}
+
+.lobby_start-btn {
+   margin-top: 3em;
+}
+
+.lobby-room_text-unavailable {
+    color: #c6c6c6;
+}
+
+.lobby_invite-btn {
+    margin-top: 2em;
 }

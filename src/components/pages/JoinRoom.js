@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import Header from "../App/Headers/HeaderText";
 import UserList from "../Lobby/UserList";
-import ip from "ip";
-const api = "http://"+ip.address()+':5000';
+import ip from "../ipConfig";
 import axios from "axios";
+import url from "url";
 
 class JoinRoom extends Component {
 
     state = {
-        isLoading: true,
-        id: null,
         interval:{
             fetchRoom: null
         },
         data: null,
+        userid: null,
         nickname: "",
         password: "",
         passwError: null,
@@ -24,7 +23,7 @@ class JoinRoom extends Component {
     };
 
     reduceRoomName = (name) => {
-        return name.length > 20 ? (name.substring(0, 20) + "...") : name;
+        return name.length > 25 ? (name.substring(0, 25) + "...") : name;
     };
 
     onSubmit = (event) => {
@@ -42,10 +41,10 @@ class JoinRoom extends Component {
                 this.setState({passwError: "Falsches Passwort! Bitte erneut eingeben"});
             }else{
                 this.setState({passwError: null});
-                this.redirectToLobby();
+                this.addCurrentUserToRoom(this.state.nickname);
             }
         }else {
-            this.redirectToLobby();
+            this.addCurrentUserToRoom(this.state.nickname);
         }
 
 
@@ -54,8 +53,24 @@ class JoinRoom extends Component {
     redirectToLobby = () => {
         this.props.history.push({
             pathname: "/lobby",
-            roomid: this.state.id
+            roomid: (this.props.location.id === undefined || this.props.location.id === null)
+                ? sessionStorage.getItem("id") : this.props.location.id,
+            userid: this.state.userid
         });
+    };
+
+    addCurrentUserToRoom = (username) => {
+        const roomid = (this.props.location.id === undefined || this.props.location.id === null)
+            ? sessionStorage.getItem("id") : this.props.location.id;
+
+        axios.post(`${ip.client}/api/rooms/${roomid}/users`, {name: username})
+            .then( res =>
+                {
+                    this.setState({userid: res.data})
+                }
+            )
+            .then(() => this.redirectToLobby())
+            .catch(err => console.error(err));
     };
 
     redirectToHome = () => {
@@ -88,25 +103,38 @@ class JoinRoom extends Component {
       this.setState({[e.target.name]: e.target.value});
     };
 
+    sessionStorageIsNotDefined = (sessId) => {
+        return (sessionStorage.getItem("id") === "undefined" ||
+            sessionStorage.getItem("id") === "null" ||
+            sessionStorage.getItem("id") === null ||
+            sessionStorage.getItem("id") === undefined);
+    };
+
     fetchRoom = async (id) => {
-        axios.get(`${api}/api/rooms/${id}`)
+        axios.get(`${ip.client}/api/rooms/${id}`)
             .then( res => this.setState({data: res.data}))
             .catch(err => console.error(err));
     };
 
     componentDidMount(){
-
-        if(sessionStorage.getItem("id") === null){
+        if(this.props.location.search !== null || this.props.location.search !== undefined ){
+            const search = url.parse(this.props.location.search).query;
+            this.fetchRoom(search)
+                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(search), 2000 ))
+                .catch(err => console.error(err));
+            sessionStorage.setItem("id", search);
+            this.props.location.roomid = search;
+        }else if(this.sessionStorageIsNotDefined(sessionStorage.getItem("id"))){
             this.fetchRoom(this.props.location.roomid)
                 .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(this.props.location.roomid), 2000 ))
-                .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             sessionStorage.setItem("id", this.props.location.roomid);
+            console.log("Data was fetched with PropID",this.props.location.roomid );
         }else {
             this.fetchRoom(sessionStorage.getItem("id"))
                 .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 2000 ))
-                .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
+            console.log("Data was fetched with Sessionstorage ID", sessionStorage.getItem("id"));
         }
     }
 
@@ -133,7 +161,6 @@ class JoinRoom extends Component {
                     <article className={"mainsec"}>
                         <UserList users={this.state.data.users} maxPerson={this.state.data.maxPerson}/>
                         <div className={"room-title-flexible"}>
-                            Raum
                             <span style={{color:"#219653", fontWeight: "bold"}}> {this.reduceRoomName(this.state.data.name)} </span>
                             beitreten
                         </div>
