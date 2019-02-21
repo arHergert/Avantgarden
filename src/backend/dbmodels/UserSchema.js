@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         "default": null
     },
+    adminStatus: {
+      type: Boolean,
+      "default": false
+    },
     drawOrder: {
         type: Number,
         "default": -1

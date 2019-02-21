@@ -229,7 +229,7 @@ body {
     font-weight: bolder;
     color: #333333;
     font-size: 3em;
-    margin-left:35%;
+    margin-left:40%;
     margin-top: 2em;
 }
 
@@ -237,7 +237,7 @@ body {
     font-weight: bolder;
     color: #333333;
     font-size: 3em;
-    margin-left:32%;
+    margin-left:36%;
     margin-top: 2em;
     margin-right: 25%;
 }
@@ -290,7 +290,7 @@ body {
 
 .userlist {
     float: right;
-    margin-top: 8.6em;
+    margin-top: 9.5em;
     margin-right: 7em;
     width: 15em;
     padding: 30px 15px;
@@ -318,7 +318,7 @@ body {
 .userlist li {
     color: #666;
     font-size: 14px;
-    border-bottom: 1px solid #E0E0E0;;
+    border-bottom: 1px solid #E0E0E0;
     line-height: 40px;
     display: block;
     text-decoration: none;
@@ -342,13 +342,19 @@ body {
     font-weight: bold;
 }
 
+.userlist_admin {
+    float: right;
+    margin-right: 1em;
+    color: #ff1a3a;
+    font-weight: bold;
+}
+
 /* ------------------------------------------------------------------------- *\
 # Lobby
 \* ------------------------------------------------------------------------- */
 
 .lobby-room {
     margin-left: 35%;
-    margin-top: 2em;
     width: 30%;
     padding: 30px 15px;
     border: 1px solid #f0f0f0;
@@ -381,4 +387,18 @@ body {
 
 .lobby_invite-btn {
     margin-top: 2em;
+}
+
+.lobby_list-container {
+    margin-left: 35%;
+    width: 30%;
+    height: 80%;
+    color: #666;
+    line-height: 30px;
+    display: block;
+    text-decoration: none;
+}
+
+.lobby_list-add {
+
 }

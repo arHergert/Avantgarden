@@ -34,7 +34,7 @@ router.get("/:id", (req, res) => {
     }
     Room.findById(req.params.id)
         .then( rooms => res.json(rooms))
-        .catch(e => console.error("GET api/rooms/:id", e))
+        .catch(e => console.error(`GET api/rooms/${req.params.id}`, e))
 });
 
 
@@ -53,7 +53,7 @@ router.post("/", (req, res) => {
     });
 
     newRoom.save()
-        .then(room => res.json(room))
+        .then(room => res.json(room._id))
         .catch(e => console.error("POST api/rooms",e));
 });
 
@@ -93,7 +93,8 @@ router.delete("/", (req, res) => {
  */
 router.post("/:id/users", (req, res) => {
     const newUser = new User({
-        name: req.body.name
+        name: req.body.name,
+        adminStatus: req.body.adminStatus
     });
 
     Room.updateOne(
@@ -123,18 +124,50 @@ router.delete("/:id/users", (req, res) => {
         .catch(e => console.error("POST api/rooms/:id",e));
 });
 
+
+
+/**
+ * PUT api/rooms/:id/:params1/:params2
+ *
+ * Set one room variable false (params1) and other true (params2)
+ */
+router.put("/:id/:params1/:params2", (req, res) => {
+
+    Room.updateMany(
+        {_id: req.params.id},
+        {[req.params.params1]: false, [req.params.params2]: true},
+    )
+        .then(
+            () => res.json({success: true})
+        )
+        .catch(e => console.error("POST api/rooms/:id",e));
+});
+
+
 /**
  * DELETE api/rooms/:id/:userid/
  *
- * Delete one user from a room
+ * Delete one user from a room and remove room if its empty
  */
 router.delete("/:id/:userid", (req, res) => {
 
-    Room.update(
-        {_id: req.params.id},
-        {$pullAll: Room.users  }
-    )
-        .then(() => res.json({success: true}) )
+    Room.findOne({_id: req.params.id})
+        .then(room => {
+            if (room){
+                room.users = room.users.filter( user => {
+                    return user._id != req.params.userid
+                });
+
+                if(room.users.length < 1){
+                    room.remove()
+                        .then(() => {});
+                }else {
+                    room.save().catch(e => {});
+                }
+
+            }
+        })
+        .then( () => res.json({success: true}) )
         .catch(e => console.error("DELETE api/rooms/:id/:userid/",e));
 });
 

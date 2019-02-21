@@ -1,11 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import {withRouter} from 'react-router-dom';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
-import HeaderText from "../App/Headers/HeaderText";
 import UserList from "../Lobby/UserList";
 import ip from "../ipConfig";
 import axios from "axios";
 import WaitingRoom from "../Lobby/WaitingRoom";
+import Header from "../App/Headers/Header";
+import MainTopicRoom from "../Lobby/MainTopicRoom";
 
 class Lobby extends Component {
 
@@ -15,22 +17,35 @@ class Lobby extends Component {
         interval:{
             fetchRoom: null
         },
-        data: null,
-        isWaitingRoom: true,
-        isMainTopicRoom: false,
-        isSubTopicRoom: false,
-        isStyleTopicRoom: false
+        data: null
     };
 
-    leaveRoom = (userId) => {
+    leaveRoom = () => {
         sessionStorage.clear();
         clearInterval(this.state.interval.fetchRoom);
-        //TODO: User aus Raum entfernen, prüfen ob Raum leer und dann raum löschen
-        this.props.history.push("/");
+        axios.delete(`${ip.client}/api/rooms/${this.state.id}/${this.state.userId}`)
+            .then( res => this.setState({userid: null}))
+            .then(this.props.history.push("/"))
+            .catch(err => console.error(err));
+    };
+
+    deleteUserFromRoom = () => {
+        axios.delete(`${ip.client}/api/rooms/${this.state.id}/${this.state.userId}`)
+            .then( res => this.setState({userid: null}))
+            .catch(err => console.error(err));
     };
 
     reduceRoomName = (name) => {
         return name.length > 25 ? (name.substring(0, 25) + "...") : name;
+    };
+
+    renderRoomTitle = () => {
+        if(this.state.data !== null && this.state.data.isDrawRoom === false){
+            return (
+                <div className={"room-title-flexible"}>
+                    <span style={{color:"#219653", fontWeight: "bold"}}> {this.reduceRoomName(this.state.data.name)} </span>
+                </div>);
+        }
     };
 
     sessionStorageIsNotDefined = (sessId) => {
@@ -53,10 +68,6 @@ class Lobby extends Component {
             .catch(err => console.error(err));
     };
 
-    startMainTopicRoom = () => {
-
-    };
-
     componentDidMount(){
         //Raum ID
         if(this.sessionStorageIsNotDefined(sessionStorage.getItem("id"))){
@@ -65,56 +76,121 @@ class Lobby extends Component {
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             sessionStorage.setItem("id", this.props.location.roomid);
+            this.state.id = this.props.location.roomid;
         }else {
             this.fetchRoom(sessionStorage.getItem("id"))
                 .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 2000 ))
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
+            this.state.id = sessionStorage.getItem("id");
         }
 
         //User ID
         if (this.userIsNotDefined(sessionStorage.getItem("userid"))){
             sessionStorage.setItem("userid", this.props.location.userid);
+            console.log("Prop UserID",this.props.location.userid );
             this.state.userId = this.props.location.userid;
         }else {
             console.log("Set session UserID", sessionStorage.getItem("userid"));
             this.state.userId = sessionStorage.getItem("userid");
         }
 
+        //Warn user before he closes his tab
+        /*window.onbeforeunload = (e) => {
+            let dialogText = 'Webseite verlasse?';
+            e.returnValue = dialogText;
+            return dialogText;
+        };*/
+
     }
 
     componentWillUnmount(){
         clearInterval(this.state.interval.fetchRoom);
         sessionStorage.clear();
+        axios.delete(`${ip.client}/api/rooms/${this.state.id}/${this.state.userId}`)
+            .then( res => this.setState({userid: null}))
+            .catch(err => console.error(err));
     }
 
-    render() {
-        if (this.state.data === null) {
+    renderUserlist = () => {
+        if(this.state.data !== null && this.state.data.isDrawRoom === false){
             return (
-                <div>
-                    <Fragment>
-                        <HeaderText/>
-                        <article className={"mainsec"}>
-                        </article>
-                    </Fragment>
+                <div className={"lobby_userlist"}>
+                    <UserList currUser={this.state.userId} users={this.state.data.users} maxPerson={this.state.data.maxPerson}/>
+                    <button
+                        type="button"
+                        onClick={this.leaveRoom}
+                        className="btn btn-danger lobby_leave-btn">
+                        Raum verlassen
+                    </button>
                 </div>
             );
-        }else if(this.state.isWaitingRoom) {
+        }
+    };
+
+    renderLobby = () => {
+        if (this.state.data === null) {
+            return null;
+        }else if(this.state.data.isWaitingRoom) {
             return (
                 <div>
                     <WaitingRoom
                         reduceRoomName={this.reduceRoomName}
+                        leaveRoom={this.leaveRoom}
                         room={this.state.data}
                         startMainTopicRoom={this.startMainTopicRoom}
                         userId={this.state.userId}
                     />
                 </div>
             );
-        } else return (
+        } else if(this.state.data.isMainTopicRoom){
+            return (
+                <div>
+                    <MainTopicRoom
+                        reduceRoomName={this.reduceRoomName}
+                        leaveRoom={this.leaveRoom}
+                        room={this.state.data}
+                        userId={this.state.userId}
+                    />
+                </div>
+            );
+        }
+    };
+
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * Functions to move forward to next phases of room managemanet
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    startMainTopicRoom = () => {
+        if(this.state.data.mainTopic === null || this.state.data.mainTopic === ""){
+            axios.put(`${ip.client}/api/rooms/${this.state.id}/isWaitingRoom/isMainTopicRoom`)
+                .catch(err => console.error(err));
+
+        }else {
+            axios.put(`${ip.client}/api/rooms/${this.state.id}/isWaitingRoom/isSubTopicRoom`)
+                .catch(err => console.error(err));
+        }
+    };
+
+    startSubTopicRoom = () => {
+
+    };
+
+    startStyleTopicRoom = () => {
+
+    };
+
+
+    render() {
+        return (
             <div>
                 <Fragment>
-                    <HeaderText/>
+                    <Header/>
+                    {this.renderUserlist()}
+                    {this.renderRoomTitle()}
                     <article className={"mainsec"}>
+                        {this.renderLobby()}
                     </article>
                 </Fragment>
             </div>

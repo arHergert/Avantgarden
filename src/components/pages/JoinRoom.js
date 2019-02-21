@@ -30,7 +30,7 @@ class JoinRoom extends Component {
         event.preventDefault();
 
         if(this.state.nickname === "" ){
-            this.setState({nameError: "Bitte Namen eingeben"});
+            this.setState({nameError: "Bitte Namen eingeben!"});
             return;
         }else{
             this.setState({nameError: null});

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+//User Model
+const User = require("./UserSchema");
 
 //Create Schema for Avantgarden Rooms
 const RoomSchema = new mongoose.Schema({
@@ -23,13 +25,45 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         "default": null
     },
+    userMainTopics: {
+        type: [],
+        "default": []
+    },
+    userSubTopics: {
+        type: [],
+        "default": []
+    },
     canvasData: {
         type: mongoose.Schema.Types.Mixed,
         "default": {}
     },
     users: {
         type: Array,
-        "default": []
+        "default": [User]
+    },
+    isWaitingRoom: {
+        type: Boolean,
+        "default": true
+    },
+    isMainTopicRoom: {
+        type: Boolean,
+        "default": false
+    },
+    isSubTopicRoom: {
+        type: Boolean,
+        "default": false
+    },
+    isStyleTopicRoom: {
+        type: Boolean,
+        "default": false
+    },
+    isDrawRoom: {
+        type: Boolean,
+        "default": false
+    },
+    isEndRoom: {
+        type: Boolean,
+        "default": false
     }
 
 });

@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const server = express();
 
 const rooms = require("../backend/routes/api/rooms");
-const funcs = require("../backend/routes/api/funcs");
 
 //Server Config
 server.listen(config.port, () => {
@@ -26,5 +25,4 @@ server.use(bodyParser.json());
 //Use Route
 server.use("/api/rooms", rooms);
 
-server.use("/api/funcs", funcs);
 

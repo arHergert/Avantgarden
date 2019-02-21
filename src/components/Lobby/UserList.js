@@ -15,9 +15,9 @@ class UserList extends Component {
                     <div className={"userlist_current-user"}>
                         {this.setCurrentUser(user._id, this.props.currUser)}
                     </div>
-                    {/*<span>
-                        {this.setAdmin(user._id, this.props.currUser)}
-                    </span>*/}
+                    <div className={"userlist_admin"}>
+                        {this.setAdmin(user)}
+                    </div>
                 </li>
             ) )}
         </Fragment>
@@ -27,8 +27,8 @@ class UserList extends Component {
         return (userId === currUserId) ? "Ich" : "";
     };
 
-    setAdmin = (userId,currUserId) => {
-
+    setAdmin = (user) => {
+        return (user.adminStatus === true) ? "Admin" : "";
     };
 
 

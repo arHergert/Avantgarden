@@ -27,52 +27,45 @@ class WaitingRoom extends Component {
         }
     };
 
-    renderStartMainTopicButton = (hasStarted) => {
-        if(hasStarted){
-            return (
-                <div>
-                    <button
-                        type="button"
-                        onClick={this.props.startMainTopicRoom}
-                        className="btn btn-success lobby_start-btn btn-lg btn-block">
-                        Starten
-                    </button>
-                </div>
+    renderStartMainTopicButton = (room, currUserId) => {
+        let currUser;
+        room.users.forEach( user => {
+            (user._id === currUserId) ? currUser=user : {};
+        });
 
-            );
-        }else {
-            return (
-                <div>
-                    <button
-                        type="button"
-                        disabled={true}
-                        className="btn btn-secondary lobby_start-btn btn-lg btn-block">
-                        Warten auf neue User ...
-                    </button>
-                </div>
-            );
-        }
+        if(currUser.adminStatus){
+            if(room.users.length > 1){
+                return (
+                    <div>
+                        <button
+                            type="button"
+                            onClick={this.props.startMainTopicRoom}
+                            className="btn btn-success lobby_start-btn btn-lg btn-block">
+                            Starten
+                        </button>
+                    </div>
+
+                );
+            }else {
+                return (
+                    <div>
+                        <button
+                            type="button"
+                            disabled={true}
+                            className="btn btn-secondary lobby_start-btn btn-lg btn-block">
+                            Warten auf neue User ...
+                        </button>
+                    </div>
+                );
+            }
+        }else return null;
+
     };
 
     render() {
         const room = this.props.room;
         return (
-            <div>
                 <Fragment>
-                    <Header/>
-                    <article className={"mainsec"}>
-                        <div className={"lobby_userlist"}>
-                            <UserList currUser={this.props.userId} users={room.users} maxPerson={room.maxPerson}/>
-                            <button
-                                type="button"
-                                onClick={this.leaveRoom}
-                                className="btn btn-danger lobby_leave-btn">
-                                Raum verlassen
-                            </button>
-                        </div>
-                        <div className={"room-title-flexible"}>
-                            <span style={{color:"#219653", fontWeight: "bold"}}> {this.props.reduceRoomName(room.name)} </span>
-                        </div>
                         <div className={"lobby-room"}>
                             {this.renderMainTopic(room.mainTopic)}
                             {this.renderPassword(room.password)}
@@ -85,12 +78,9 @@ class WaitingRoom extends Component {
                                    + User einladen
                                 </button>
                             </div>
-                            {this.renderStartMainTopicButton(false)}
+                            {this.renderStartMainTopicButton(room, this.props.userId)}
                         </div>
-
-                    </article>
                 </Fragment>
-            </div>
         );
     }
 }
@@ -99,7 +89,8 @@ WaitingRoom.propTypes = {
     reduceRoomName: PropTypes.func,
     room: PropTypes.object,
     startMainTopicRoom: PropTypes.func,
-    userId: PropTypes.string
+    userId: PropTypes.string,
+    leaveRoom: PropTypes.func
 };
 
 export default WaitingRoom;

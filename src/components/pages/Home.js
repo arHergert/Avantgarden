@@ -43,7 +43,7 @@ class Home extends Component {
 
     componentDidMount(){
         this.fetchAllRooms()
-            .then(this.state.interval.fetchAllRooms = setInterval(this.fetchAllRooms, 5000 ));
+            .then(this.state.interval.fetchAllRooms = setInterval(this.fetchAllRooms, 2000));
     }
 
     componentWillUnmount(){
