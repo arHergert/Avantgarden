@@ -5,8 +5,6 @@ import addImg from "@resources/img/lobby/baseline_add_white_18dp.png";
 class MainTopicRoom extends Component {
 
 
-
-
     render() {
         return (
             <div >
