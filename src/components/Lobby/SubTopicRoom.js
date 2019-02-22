@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import addImg from "@resources/img/lobby/baseline_add_white_18dp.png";
 import deleteImg from "@resources/img/lobby/baseline_delete_black_18dp.png"
 import uuid from "uuid/v1";
-class MainTopicRoom extends Component {
+
+class SubTopicRoom extends Component {
 
     state = {
         topic: ""
@@ -13,10 +14,10 @@ class MainTopicRoom extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
-    renderMainTopics = (data, userId) => {
+    renderSubTopics = (data, userId) => {
         return (<Fragment>
             {
-                data.userMainTopics.map( topic => (
+                data.userSubTopics.map( topic => (
                     <li
                         key={uuid()}
                         className={"list-group-item"}
@@ -38,7 +39,7 @@ class MainTopicRoom extends Component {
         if(topic.userId === userId){
             return (
                 <div
-                    onClick={() => this.props.deleteTopic(true, roomId, userId, delTopic)}
+                    onClick={() => this.props.deleteTopic(false, roomId, userId, delTopic)}
                 >
                     <img className={"room-icon"} src={deleteImg}/>
                 </div>
@@ -55,21 +56,21 @@ class MainTopicRoom extends Component {
         }
     };
 
-    renderStartMainTopicButton = (room, currUserId) => {
+    renderStartSubTopicButton = (room, currUserId) => {
         let currUser;
         room.users.forEach( user => {
             (user._id === currUserId) ? currUser=user : {};
         });
 
         if(currUser.adminStatus){
-            if(room.userMainTopics.length > 1){
+            if(room.userSubTopics.length > 1){
                 return (
                     <div>
                         <button
                             type="button"
-                            onClick={this.props.startSubTopicRoom}
+                            onClick={this.props.startDrawRoom}
                             className="btn btn-success lobby_start-btn btn-lg btn-block">
-                            Unterthemen wählen
+                            Malen beginnen!
                         </button>
                     </div>
 
@@ -81,7 +82,7 @@ class MainTopicRoom extends Component {
                             type="button"
                             disabled={true}
                             className="btn btn-secondary lobby_start-btn btn-lg btn-block">
-                            Bitte Haupthemen hinzufügen
+                            Bitte Unterthemen hinzufügen
                         </button>
                     </div>
                 );
@@ -90,11 +91,12 @@ class MainTopicRoom extends Component {
 
     };
 
-
-
     render() {
         return (
             <div >
+                <div className={"title_room-info"}>
+                    Oberthema: {this.props.room.mainTopic}
+                </div>
                 <ul className={"lobby_list-container"}>
                     <li className="list-group-item">
                         <div className="input-group">
@@ -102,7 +104,7 @@ class MainTopicRoom extends Component {
                                 type="text"
                                 className="form-control"
                                 name={"topic"}
-                                placeholder="Oberthema hinzufügen"
+                                placeholder="Unterthemen hinzufügen"
                                 onChange={this.handleInputChange}
                             />
                             <div className="input-group-append">
@@ -110,29 +112,29 @@ class MainTopicRoom extends Component {
                                     className="btn btn-primary"
                                     type="button"
                                     id="button-addon3"
-                                    onClick={() => this.submitTopic(true)}
+                                    onClick={() => this.submitTopic(false)}
                                 >
                                     <img className={"search-icon"} src={addImg}/>
                                 </button>
                             </div>
                         </div>
                     </li>
-                    {this.renderMainTopics(this.props.room, this.props.userId)}
-                    {this.renderStartMainTopicButton(this.props.room, this.props.userId)}
+                    {this.renderSubTopics(this.props.room, this.props.userId)}
+                    {this.renderStartSubTopicButton(this.props.room, this.props.userId)}
                 </ul>
             </div>
         );
     }
 }
 
-MainTopicRoom.propTypes = {
+SubTopicRoom.propTypes = {
     reduceRoomName: PropTypes.func,
     room: PropTypes.object,
     userId: PropTypes.string,
     leaveRoom: PropTypes.func,
     deleteTopic: PropTypes.func,
     addTopic: PropTypes.func,
-    startSubTopicRoom: PropTypes.func
+    startDrawRoom: PropTypes.func
 };
 
-export default MainTopicRoom;
+export default SubTopicRoom;

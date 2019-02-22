@@ -390,7 +390,7 @@ body {
 }
 
 .lobby_list-container {
-    margin-left: 35%;
+    margin-left: 33%;
     width: 30%;
     height: 80%;
     color: #666;
@@ -399,6 +399,23 @@ body {
     text-decoration: none;
 }
 
-.lobby_list-add {
+.align-right {
+    margin-left: 90%;
+    margin-right: 2em;
+}
 
+.placeholder-width {
+    height: 30px;
+    width: 30px;
+}
+
+.float-left {
+    float: left
+}
+
+.title_room-info {
+    font-size: 2em;
+    position: absolute;
+    top: 6em;
+    left: 25em;
 }

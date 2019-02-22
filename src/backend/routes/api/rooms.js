@@ -8,6 +8,13 @@ const Room = require("../../dbmodels/RoomSchema");
 const User = require("../../dbmodels/UserSchema");
 
 
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 /************************
  * ROOMS
  ***********************/
@@ -66,8 +73,8 @@ router.delete("/:id", (req, res) => {
     Room.findById(req.params.id)
         .then(room =>
             room.remove()
-            .then(() => res.json({success: true})))
-        .catch(e => res.status(404).json({success: false}));
+            .then(() => res.json({delete_room_success: true})))
+        .catch(e => res.status(404).json({delete_room_success: false}));
 });
 
 /**
@@ -77,8 +84,8 @@ router.delete("/:id", (req, res) => {
  */
 router.delete("/", (req, res) => {
     Room.remove({})
-        .then(() => res.json({success: true}))
-        .catch(e => res.status(404).json({success: false}));
+        .then(() => res.json({delete_all_rooms_success: true}))
+        .catch(e => res.status(404).json({delete_all_rooms_success: false}));
 });
 
 
@@ -119,7 +126,7 @@ router.delete("/:id/users", (req, res) => {
         {users: []}
     )
         .then(
-            () => res.json({success: true})
+            () => res.json({delete_all_user_success: true})
         )
         .catch(e => console.error("POST api/rooms/:id",e));
 });
@@ -138,7 +145,7 @@ router.put("/:id/:params1/:params2", (req, res) => {
         {[req.params.params1]: false, [req.params.params2]: true},
     )
         .then(
-            () => res.json({success: true})
+            () => res.json({change_Room_Vars_success: true})
         )
         .catch(e => console.error("POST api/rooms/:id",e));
 });
@@ -167,8 +174,116 @@ router.delete("/:id/:userid", (req, res) => {
 
             }
         })
-        .then( () => res.json({success: true}) )
+        .then( () => res.json({delete_one_user_success: true}) )
         .catch(e => console.error("DELETE api/rooms/:id/:userid/",e));
+});
+
+
+/************************
+ * Topics
+ ***********************/
+
+/**
+ * POST api/rooms/:roomid/topics/
+ *
+ * Adds a new main- or subTopic into a Topic Array
+ */
+router.post("/:roomid/topics", (req, res) => {
+    const newTopic = {
+        value: req.body.value,
+        userId: req.body.userId
+    };
+
+    if(req.body.isMainTopic == true){
+        Room.updateOne(
+            {_id: req.params.roomid},
+            {$push: {userMainTopics: newTopic}}
+        )
+            .then(() => res.json({add_MainTopic_success: true}))
+            .catch(e => console.error("POST api/rooms/:roomid/topics/",e));
+    }else {
+        Room.updateOne(
+            {_id: req.params.roomid},
+            {$push: {userSubTopics: newTopic}}
+        )
+            .then(() => res.json({Add_SubTopic_success: true}))
+            .catch(e => console.error("POST api/rooms/:roomid/topics/",e));
+    }
+
+});
+
+/**
+ * POST api/rooms/:roomid/topics/delete
+ *
+ * Deletes a main- or subTopic from a Topic Array
+ */
+router.post("/:roomid/topics/delete", (req, res) => {
+
+    if(req.body.isMainTopic == true){
+        Room.findOne({_id: req.params.roomid})
+            .then(room => {
+                if (room){
+                    room.userMainTopics = room.userMainTopics.filter( topic => {
+                        return topic.value != req.body.value
+                    });
+                    room.save().catch(e => {});
+                }
+            })
+            .then( () => res.json({del_MainTopic_success: true}) )
+            .catch(e => console.error("DELETE api/rooms/:id/:userid/",e));
+    }else {
+        Room.findOne({_id: req.params.roomid})
+            .then(room => {
+                if (room){
+                    room.userSubTopics = room.userSubTopics.filter( topic => {
+                        console.log("Topic: ".topic.value," - Value: ", req.body.value);
+                        return topic.value != req.body.value
+                    });
+                    room.save().catch(e => {});
+                }
+            })
+            .then( () => res.json({del_SubTopic_success: true}) )
+            .catch(e => console.error("DELETE api/rooms/:id/:userid/",e));
+    }
+
+});
+
+/************************
+ * Topic choice and administration
+ ***********************/
+
+/**
+ * POST api/rooms/:roomid/topics/choose/
+ *
+ * Chooses a main topic or maps a sub topic to a user
+ */
+router.post("/:roomid/topics/choose", (req, res) => {
+    console.log("Choosing Topics");
+    if(req.body.value == "MainTopics"){
+        console.log("Is MainTopics");
+        Room.findOne({_id: req.params.roomid})
+            .then( room => {
+                room.mainTopic = room.userMainTopics[Math.floor(Math.random() * room.userMainTopics.length)].value;
+                console.log("Value:",room.userMainTopics[Math.floor(Math.random() * room.userMainTopics.length)].value);
+                console.log("Final MainTopic:", room.mainTopic);
+                room.save().catch(e => {});
+            })
+            .then( () => res.json({chose_MainTopic_success: true}) )
+            .catch(e => console.error("PUT api/rooms/:roomid/topics/choose/",e));
+    }else {
+        Room.findOne({_id: req.params.roomid})
+            .then(room => {
+                let shuffledSubTopics = shuffleArray(room.userSubTopics);
+
+                for(let i= 0; i< room.users.length; i++){
+                    room.users.subTopic[i] = shuffledSubTopics[i];
+                }
+                room.save().catch(e => {});
+            })
+            .then( () => res.json({chose_SubTopics_success: true}) )
+            .catch(e => console.error("PUT api/rooms/:roomid/topics/choose/",e));
+    }
+
 });
 
 

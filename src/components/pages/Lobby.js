@@ -8,6 +8,7 @@ import axios from "axios";
 import WaitingRoom from "../Lobby/WaitingRoom";
 import Header from "../App/Headers/Header";
 import MainTopicRoom from "../Lobby/MainTopicRoom";
+import SubTopicRoom from "../Lobby/SubTopicRoom";
 
 class Lobby extends Component {
 
@@ -72,14 +73,14 @@ class Lobby extends Component {
         //Raum ID
         if(this.sessionStorageIsNotDefined(sessionStorage.getItem("id"))){
             this.fetchRoom(this.props.location.roomid)
-                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(this.props.location.roomid), 2000 ))
+                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(this.props.location.roomid), 1000 ))
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             sessionStorage.setItem("id", this.props.location.roomid);
             this.state.id = this.props.location.roomid;
         }else {
             this.fetchRoom(sessionStorage.getItem("id"))
-                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 2000 ))
+                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 1000 ))
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             this.state.id = sessionStorage.getItem("id");
@@ -103,6 +104,20 @@ class Lobby extends Component {
         };*/
 
     }
+
+    deleteTopic = (isMainTopic, roomId, userId, topic) => {
+        axios.post(`${ip.client}/api/rooms/${roomId}/topics/delete`,
+            {isMainTopic: isMainTopic, value: topic, userId: userId})
+            .catch(err => console.error(err));
+    };
+
+    addTopic = (isMainTopic, roomId, userId, topic) => {
+        axios.post(`${ip.client}/api/rooms/${roomId}/topics`,
+            {isMainTopic: isMainTopic, value: topic, userId: userId})
+            .catch(err => console.error(err));
+
+    };
+
 
     componentWillUnmount(){
         clearInterval(this.state.interval.fetchRoom);
@@ -151,7 +166,30 @@ class Lobby extends Component {
                         leaveRoom={this.leaveRoom}
                         room={this.state.data}
                         userId={this.state.userId}
+                        deleteTopic={this.deleteTopic}
+                        addTopic={this.addTopic}
+                        startSubTopicRoom={this.startSubTopicRoom}
                     />
+                </div>
+            );
+        } else if(this.state.data.isSubTopicRoom){
+            return (
+                <div>
+                    <SubTopicRoom
+                        reduceRoomName={this.reduceRoomName}
+                        leaveRoom={this.leaveRoom}
+                        room={this.state.data}
+                        userId={this.state.userId}
+                        deleteTopic={this.deleteTopic}
+                        addTopic={this.addTopic}
+                        startDrawRoom={this.startDrawRoom}
+                    />
+                </div>
+            )
+        }else if (this.state.data.isDrawRoom){
+            return (
+                <div>
+
                 </div>
             );
         }
@@ -174,10 +212,17 @@ class Lobby extends Component {
     };
 
     startSubTopicRoom = () => {
+        axios.post(`${ip.client}/api/rooms/${this.state.id}/topics/choose/`, {value: "MainTopics"})
+            .then(() => {
+                axios.put(`${ip.client}/api/rooms/${this.state.id}/isMainTopicRoom/isSubTopicRoom`)
+                    .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
+
 
     };
 
-    startStyleTopicRoom = () => {
+    startDrawRoom = () => {
 
     };
 
