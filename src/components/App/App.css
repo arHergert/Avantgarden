@@ -402,3 +402,46 @@ body {
 .lobby_list-add {
 
 }
+
+
+/* ------------------------------------------------------------------------- *\
+# Draw Site
+\* ------------------------------------------------------------------------- */
+
+
+
+svg {
+   
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 20;
+    stroke-linejoin: round;
+    border-style: solid;
+    border-color: black;
+    margin-top: 5px; 
+   
+
+}
+
+#galerie {
+    margin-left: 5px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px 1px #dddddd;
+   
+}
+
+.btn, .draw-area{
+    margin-top: 5px;
+}
+
+#drawing-mode-options{
+    margin-top: 5px;
+    background-color: burlywood;
+    padding: 5px;
+}
+

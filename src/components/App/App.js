@@ -1,12 +1,13 @@
 import React, {Component, Fragment} from 'react';
-import {BrowserRouter, Route, withRouter } from "react-router-dom";
-import axios from "axios";
-import uuid from "uuid/v1";
-import "./App.css";
-import Home from "../pages/Home";
-import CreateRoom from "../pages/CreateRoom";
-import JoinRoom from "../pages/JoinRoom";
-import Lobby from "../pages/Lobby";
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
+import axios from 'axios';
+import uuid from 'uuid/v1';
+import './App.css';
+import Home from '../pages/Home';
+import CreateRoom from '../pages/CreateRoom';
+import JoinRoom from '../pages/JoinRoom';
+import Lobby from '../pages/Lobby';
+import Draw from '../pages/Draw';
 
 /**
  * Main entrypoint for Avantgarden
@@ -15,25 +16,58 @@ import Lobby from "../pages/Lobby";
  * pages with react-router
  */
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: uuid(),
-            rooms: [
-                {id: uuid(), name:"Test", currPerson: 4, maxPerson:6,  password: false},
-                {id: uuid(), name:"KommDes Projekt - Flasche Designen", currPerson: 5, maxPerson:6, password: true},
-                {id: uuid(), name:"Haus", currPerson: 1, maxPerson:5, password: false},
-                {id: uuid(), name:"Fahrrad", currPerson: 2, maxPerson:5, password: true},
-                {id: uuid(), name:"Auto", currPerson: 3, maxPerson:4, password: true},
-                {id: uuid(), name:"Voller Raum", currPerson: 8, maxPerson:8, password: true}
-            ],
-        };
+  constructor (props) {
+    super (props);
+    this.state = {
+      id: uuid (),
+      rooms: [
+        {
+          id: uuid (),
+          name: 'Test',
+          currPerson: 4,
+          maxPerson: 6,
+          password: false,
+        },
+        {
+          id: uuid (),
+          name: 'KommDes Projekt - Flasche Designen',
+          currPerson: 5,
+          maxPerson: 6,
+          password: true,
+        },
+        {
+          id: uuid (),
+          name: 'Haus',
+          currPerson: 1,
+          maxPerson: 5,
+          password: false,
+        },
+        {
+          id: uuid (),
+          name: 'Fahrrad',
+          currPerson: 2,
+          maxPerson: 5,
+          password: true,
+        },
+        {
+          id: uuid (),
+          name: 'Auto',
+          currPerson: 3,
+          maxPerson: 4,
+          password: true,
+        },
+        {
+          id: uuid (),
+          name: 'Voller Raum',
+          currPerson: 8,
+          maxPerson: 8,
+          password: true,
+        },
+      ],
+    };
+  }
 
-    }
-
-
-
-    /**
+  /**
      * <Browserrouter kümmert sich um das Weiterleiten zu verschiedenen
      * Pfaden/Pages.
      *
@@ -55,38 +89,40 @@ class App extends Component {
      * render übergeben:
      * <Route path="..." render={(props) => <Component beispielProp={...} />}
      */
-    render() {
+  render () {
+    return (
+      <BrowserRouter>
+        <Fragment>
+          {/* Mainpage */}
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <Home rooms={this.state.rooms} userid={this.state.id} />
+            )}
+          />
 
-        return (
-            <BrowserRouter>
-                <Fragment>
-                    {/* Mainpage */}
-                    <Route exact path="/" render={(props) =>
-                        <Home
-                            rooms={this.state.rooms}
-                            userid={this.state.id}
-                        /> }/>
+          {/* Create new room */}
+          <Route
+            exact
+            path="/createroom"
+            render={props => (
+              <CreateRoom redirectToHome={this.redirectToHome} />
+            )}
+          />
 
-                    {/* Create new room */}
-                    <Route exact path="/createroom" render={(props) =>
-                        <CreateRoom redirectToHome={this.redirectToHome}/>
-                    }/>
+          {/* Join a room */}
+          <Route exact path={'/joinroom'} render={props => <JoinRoom />} />
 
-                    {/* Join a room */}
-                    <Route exact path={"/joinroom"} render={(props) =>
-                        <JoinRoom/>
-                    }/>
+          {/* Lobby of room*/}
+          <Route exact path={'/lobby'} render={props => <Lobby />} />
 
-                    {/* Lobby of room*/}
-                    <Route exact path={"/lobby"} render={(props) =>
-                        <Lobby/>
-                    }/>
-                </Fragment>
-            </BrowserRouter>
-
-        )
-    }
-
-}//end App
+          {/* Lobby of room*/}
+          <Route exact path={'/draw'} render={props => <Draw />} />
+        </Fragment>
+      </BrowserRouter>
+    );
+  }
+} //end App
 
 export default App;
