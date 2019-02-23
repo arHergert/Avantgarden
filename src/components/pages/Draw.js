@@ -78,7 +78,7 @@ class Draw extends Component {
 
     // Check ob ein Objekt zum kopieren unten ausgewaelt wurde
     if (canvas2.getActiveObject() == null) {
-      alert('Bitte das einzufügende Bild in der Galerie auswählen!');
+      alert('Bitte das einzufuegende Bild in der Galerie auswaehlen!');
       return;
     }
     canvas2.getActiveObject().clone(function (cloned) {
@@ -179,6 +179,9 @@ class Draw extends Component {
       this.refs.saveCanvas.style.display = 'none';
       this.refs.deleteCompleteCanvas.style.display = 'none';
       this.refs.downloadCanvas.disabled = false;
+
+      // Download Button einbinden
+      this.refs.downloadCanvas.classList.remove("d-none");
 
       // Hier hat der Nutzer alle Schritte durchlaufen und muss ggf. zum kompletten Endresultat geleitet werden
       alert("Ende");
@@ -291,7 +294,7 @@ class Draw extends Component {
                     ref="copy"
                     className="btn btn-info"
                     onClick={this.copy} ><i className="fas fa-paste"></i> Objekt
-            einfügen</button>
+            einfuegen</button>
 
                   <button
                     name="TestName"
@@ -307,7 +310,7 @@ class Draw extends Component {
                     text="TEs2"
                     ref="deleteElement"
                     className="btn btn-warning"
-                    onClick={this.deleteElement} ><i className="fas fa-eraser"></i> Element löschen</button>
+                    onClick={this.deleteElement} ><i className="fas fa-eraser"></i> Element loeschen</button>
 
 
                   <button
@@ -333,9 +336,9 @@ class Draw extends Component {
                     name="TestName4"
                     value="Testvalue4"
                     text="TEs4"
-                    disabled
+
                     ref="downloadCanvas"
-                    className="btn btn-success"
+                    className="btn btn-success d-none"
                     onClick={this.downloadCanvas} ><i className="fas fa-download"></i> Komposition Downloaden</button>
 
                   <div id="drawing-mode-options" ref="drawingModeOptions" style={{ display: 'none' }}>>
@@ -346,7 +349,7 @@ class Draw extends Component {
                       <option>Spray</option>
                     </select><br></br>
 
-                    <label htmlFor="drawing-line-width">Linienstärke</label>
+                    <label htmlFor="drawing-line-width">Linienstaerke</label>
                     <input onChange={this.changeLineWidth} type="range" min="0" max="150" id="drawing-line-width"></input><br></br>
 
                     <label htmlFor="drawing-color">Schriftfarbe:</label>
@@ -365,7 +368,7 @@ class Draw extends Component {
             <div className="main-galerie d-flex justify-content-center bd-highlight mb-2" style={{ display: 'none' }}>
 
               <div className="p-2 bd-highlight"><canvas height="600px" width="800px" id="c1"></canvas></div>
-              <h2>Vorgänger-Zeichnung </h2>
+              <h2>Vorgaenger-Zeichnung </h2>
             </div>
           </div>
         </article>
