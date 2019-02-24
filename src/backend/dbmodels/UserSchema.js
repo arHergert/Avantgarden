@@ -18,7 +18,11 @@ const UserSchema = new mongoose.Schema({
     drawOrder: {
         type: Number,
         "default": -1
-    }
+    },
+    canvasData: {
+        type: String,
+        "default": null
+    },
 });
 
 module.exports = mongoose.model("user", UserSchema);

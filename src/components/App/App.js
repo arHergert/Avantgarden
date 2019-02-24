@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import CreateRoom from "../pages/CreateRoom";
 import JoinRoom from "../pages/JoinRoom";
 import Lobby from "../pages/Lobby";
+import Draw from "../pages/Draw";
 
 /**
  * Main entrypoint for Avantgarden
@@ -80,6 +81,9 @@ class App extends Component {
                     {/* Lobby of room*/}
                     <Route exact path={"/lobby"} render={(props) =>
                         <Lobby/>
+                    }/>
+                    <Route exact path={"/draw"} render={(props) =>
+                        <Draw/>
                     }/>
                 </Fragment>
             </BrowserRouter>

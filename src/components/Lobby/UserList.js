@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 import userIconDarkImg from "@img/rooms/baseline_person_black_18dp.png";
-import uuid from "uuid/v1";
 class UserList extends Component {
 
 

@@ -8,6 +8,10 @@ import axios from "axios";
 import WaitingRoom from "../Lobby/WaitingRoom";
 import Header from "../App/Headers/Header";
 import MainTopicRoom from "../Lobby/MainTopicRoom";
+import SubTopicRoom from "../Lobby/SubTopicRoom";
+import DrawRoom from "../Lobby/DrawRoom";
+import TempRoom from "../Lobby/TempRoom";
+import Gallery from "../Lobby/Gallery";
 
 class Lobby extends Component {
 
@@ -40,7 +44,7 @@ class Lobby extends Component {
     };
 
     renderRoomTitle = () => {
-        if(this.state.data !== null && this.state.data.isDrawRoom === false){
+        if(this.state.data !== null && this.state.data.isDrawRoom === false && this.state.data.isTempRoom === false){
             return (
                 <div className={"room-title-flexible"}>
                     <span style={{color:"#219653", fontWeight: "bold"}}> {this.reduceRoomName(this.state.data.name)} </span>
@@ -72,14 +76,14 @@ class Lobby extends Component {
         //Raum ID
         if(this.sessionStorageIsNotDefined(sessionStorage.getItem("id"))){
             this.fetchRoom(this.props.location.roomid)
-                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(this.props.location.roomid), 2000 ))
+                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(this.props.location.roomid), 1000 ))
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             sessionStorage.setItem("id", this.props.location.roomid);
             this.state.id = this.props.location.roomid;
         }else {
             this.fetchRoom(sessionStorage.getItem("id"))
-                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 2000 ))
+                .then(this.state.interval.fetchRoom = setInterval(() => this.fetchRoom(sessionStorage.getItem("id")), 1000 ))
                 .then( () => this.state.isLoading = false)
                 .catch(err => console.error(err));
             this.state.id = sessionStorage.getItem("id");
@@ -104,6 +108,25 @@ class Lobby extends Component {
 
     }
 
+    deleteTopic = (isMainTopic, roomId, userId, topic) => {
+        axios.post(`${ip.client}/api/rooms/${roomId}/topics/delete`,
+            {isMainTopic: isMainTopic, value: topic, userId: userId})
+            .catch(err => console.error(err));
+    };
+
+    addTopic = (isMainTopic, roomId, userId, topic) => {
+        axios.post(`${ip.client}/api/rooms/${roomId}/topics`,
+            {isMainTopic: isMainTopic, value: topic, userId: userId})
+            .catch(err => console.error(err));
+
+    };
+
+    saveCanvas = (saveToRoom, canvasData, roomId, userId) => {
+        axios.post(`${ip.client}/api/rooms/canvas/${roomId}/save/${userId}`,
+            {canvasData: canvasData, value: saveToRoom, userId: userId})
+            .catch(err => console.error(err));
+    };
+
     componentWillUnmount(){
         clearInterval(this.state.interval.fetchRoom);
         sessionStorage.clear();
@@ -113,14 +136,14 @@ class Lobby extends Component {
     }
 
     renderUserlist = () => {
-        if(this.state.data !== null && this.state.data.isDrawRoom === false){
+        if(this.state.data !== null && this.state.data.isDrawRoom === false && this.state.data.isTempRoom === false){
             return (
                 <div className={"lobby_userlist"}>
                     <UserList currUser={this.state.userId} users={this.state.data.users} maxPerson={this.state.data.maxPerson}/>
                     <button
                         type="button"
                         onClick={this.leaveRoom}
-                        className="btn btn-danger lobby_leave-btn">
+                        className="btn btn-secondary lobby_leave-btn">
                         Raum verlassen
                     </button>
                 </div>
@@ -151,9 +174,62 @@ class Lobby extends Component {
                         leaveRoom={this.leaveRoom}
                         room={this.state.data}
                         userId={this.state.userId}
+                        deleteTopic={this.deleteTopic}
+                        addTopic={this.addTopic}
+                        startSubTopicRoom={this.startSubTopicRoom}
                     />
                 </div>
             );
+        } else if(this.state.data.isSubTopicRoom){
+            return (
+                <div>
+                    <SubTopicRoom
+                        reduceRoomName={this.reduceRoomName}
+                        leaveRoom={this.leaveRoom}
+                        room={this.state.data}
+                        userId={this.state.userId}
+                        deleteTopic={this.deleteTopic}
+                        addTopic={this.addTopic}
+                        startDrawRoom={this.startDrawRoom}
+                    />
+                </div>
+            )
+        }else if (this.state.data.isDrawRoom){
+            return (
+                <div>
+                    <DrawRoom
+                        room={this.state.data}
+                        userId={this.state.userId}
+                        saveCanvas={this.saveCanvas}
+                    />
+                    <button
+                        type="button"
+                        onClick={this.leaveRoom}
+                        className="btn btn-secondary lobby_leave-draw-btn">
+                        Raum verlassen
+                    </button>
+                </div>
+            );
+        } else if(this.state.data.isTempRoom){
+            return (
+                <div>
+                    <TempRoom
+                        room={this.state.data}
+                        userId={this.state.userId}
+                        saveCanvas={this.saveCanvas}
+                        startEndRoom={this.startEndRoom}
+                    />
+                    <button
+                        type="button"
+                        onClick={this.leaveRoom}
+                        className="btn btn-secondary lobby_leave-draw-btn">
+                        Raum verlassen
+                    </button>
+                </div>
+            );
+        } else if (this.state.data.isEndRoom){
+            this.leaveRoom();
+            return null;
         }
     };
 
@@ -174,11 +250,34 @@ class Lobby extends Component {
     };
 
     startSubTopicRoom = () => {
+        axios.post(`${ip.client}/api/rooms/${this.state.id}/topics/choose/`, {value: "MainTopics"})
+            .then(() => {
+                axios.put(`${ip.client}/api/rooms/${this.state.id}/isMainTopicRoom/isSubTopicRoom`)
+                    .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
+
 
     };
 
-    startStyleTopicRoom = () => {
+    startDrawRoom = () => {
+        axios.post(`${ip.client}/api/rooms/${this.state.id}/topics/choose/`, {value: "SubTopics"})
+            .then(() => {
+                axios.put(`${ip.client}/api/rooms/${this.state.id}/isSubTopicRoom/isDrawRoom`)
+                    .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
+    };
 
+    startTempRoom = () => {
+        axios.put(`${ip.client}/api/rooms/${this.state.id}/isDrawRoom/isTempRoom`)
+            .catch(err => console.error(err));
+    };
+
+    startEndRoom = () => {
+        axios.put(`${ip.client}/api/rooms/${this.state.id}/isTempRoom/isEndRoom`)
+            .then( () => this.leaveRoom())
+            .catch(err => console.error(err));
     };
 
 
