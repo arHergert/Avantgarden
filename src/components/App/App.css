@@ -345,7 +345,7 @@ body {
 .userlist_admin {
     float: right;
     margin-right: 1em;
-    color: #ff1a3a;
+    color: #5f5f5f;
     font-weight: bold;
 }
 
@@ -378,7 +378,9 @@ body {
 }
 
 .lobby_start-btn {
-   margin-top: 3em;
+    margin-top: 4em;
+    background: #6FCF97;
+    color: white;
 }
 
 .lobby-room_text-unavailable {
@@ -418,4 +420,123 @@ body {
     position: absolute;
     top: 6em;
     left: 25em;
+}
+
+.title_draw-room {
+    margin-left: 45%;
+}
+
+.lobby_leave-draw-btn {
+    position: fixed;
+    bottom: 5em;
+    left: 2em;
+}
+
+.draw-room_text {
+    margin-left: 38%;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    color: #9c9c9c;
+}
+
+.draw-room_load {
+    width: 50em;
+    margin-left: 28%;
+}
+
+.draw-room_content-load {
+    margin-top: 20%;
+}
+
+/* ------------------------------------------------------------------------- *\
+# Draw Site
+\* ------------------------------------------------------------------------- */
+
+
+
+svg {
+
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 20;
+    stroke-linejoin: round;
+    border: solid black;
+    margin-top: 5px;
+
+
+}
+
+#galerie {
+    margin-left: 5px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px 1px #dddddd;
+    margin-left: 3em;
+}
+
+.btn-draw, .draw-area{
+    margin-top: 5px;
+    border: 0;
+}
+
+#drawing-mode-options{
+    margin-top: 5px;
+    background-color: burlywood;
+    padding: 5px;
+}
+
+.draw-area_tools {
+    margin-left: 6em;
+    box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.3);
+}
+
+.draw-area_tools-title {
+    margin-left: 3em;
+    font-weight: bold;
+}
+
+.draw-room_timer {
+    position: absolute;
+    display: flex;
+    top: 5.7em;
+    left: 15%;
+}
+
+.draw-room_timer-text {
+    margin-left: 1em;
+    margin-top: 0.5em;
+    color: #9c9c9c;
+    font-weight: bold;
+}
+
+.draw-room_content-load {
+    /*position: absolute;
+    left: 44%;
+    bottom: 40%;*/
+}
+
+.draw-room_content-done {
+    position: absolute;
+    left: 44%;
+    bottom: 40%;
+}
+
+.draw-room_check {
+
+}
+
+.draw-room_sent-text {
+    color: green;
+    font-weight: bold;
+    margin-left: 1em;
+    font-size: 18pt;
+}
+
+.draw-room_checkImg {
+    width: 250px;
+    height: 250px;
 }

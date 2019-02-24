@@ -21,6 +21,10 @@ const RoomSchema = new mongoose.Schema({
         type: Number,
         "default": 120
     },
+    activeOrder: {
+      type: Number,
+      "default": 2
+    },
     mainTopic: {
         type: String,
         "default": null
@@ -34,8 +38,8 @@ const RoomSchema = new mongoose.Schema({
         "default": []
     },
     canvasData: {
-        type: mongoose.Schema.Types.Mixed,
-        "default": {}
+        type: String,
+        "default": null
     },
     users: {
         type: Array,
@@ -58,6 +62,10 @@ const RoomSchema = new mongoose.Schema({
         "default": false
     },
     isDrawRoom: {
+        type: Boolean,
+        "default": false
+    },
+    isTempRoom: {
         type: Boolean,
         "default": false
     },

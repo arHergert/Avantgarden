@@ -54,7 +54,7 @@ class CreateRoom extends Component {
         }
 
         if(this.state.password === "") this.state.password = null;
-        if(this.state.timer === "") this.state.timer = null;
+        if(this.state.timer === "") this.state.timer = 120;
         if(this.state.mainTopic === "") this.state.mainTopic = null;
 
         console.log("Axios?", errorOccured);

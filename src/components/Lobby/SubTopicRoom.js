@@ -69,7 +69,7 @@ class SubTopicRoom extends Component {
                         <button
                             type="button"
                             onClick={this.props.startDrawRoom}
-                            className="btn btn-success lobby_start-btn btn-lg btn-block">
+                            className="btn lobby_start-btn btn-lg btn-block">
                             Malen beginnen!
                         </button>
                     </div>
@@ -95,7 +95,7 @@ class SubTopicRoom extends Component {
         return (
             <div >
                 <div className={"title_room-info"}>
-                    Oberthema: {this.props.room.mainTopic}
+                     <div style={{color:"#666"}}>Oberthema: {this.props.room.mainTopic}</div>
                 </div>
                 <ul className={"lobby_list-container"}>
                     <li className="list-group-item">

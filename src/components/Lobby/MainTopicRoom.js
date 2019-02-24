@@ -68,7 +68,7 @@ class MainTopicRoom extends Component {
                         <button
                             type="button"
                             onClick={this.props.startSubTopicRoom}
-                            className="btn btn-success lobby_start-btn btn-lg btn-block">
+                            className="btn lobby_start-btn btn-lg btn-block">
                             Unterthemen wählen
                         </button>
                     </div>

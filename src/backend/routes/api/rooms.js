@@ -8,11 +8,16 @@ const Room = require("../../dbmodels/RoomSchema");
 const User = require("../../dbmodels/UserSchema");
 
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+
+function shuffle(sourceArray) {
+    for (var i = 0; i < sourceArray.length - 1; i++) {
+        var j = i + Math.floor(Math.random() * (sourceArray.length - i));
+
+        var temp = sourceArray[j];
+        sourceArray[j] = sourceArray[i];
+        sourceArray[i] = temp;
     }
+    return sourceArray;
 }
 
 /************************
@@ -236,7 +241,6 @@ router.post("/:roomid/topics/delete", (req, res) => {
             .then(room => {
                 if (room){
                     room.userSubTopics = room.userSubTopics.filter( topic => {
-                        console.log("Topic: ".topic.value," - Value: ", req.body.value);
                         return topic.value != req.body.value
                     });
                     room.save().catch(e => {});
@@ -268,20 +272,138 @@ router.post("/:roomid/topics/choose", (req, res) => {
                 console.log("Final MainTopic:", room.mainTopic);
                 room.save().catch(e => {});
             })
-            .then( () => res.json({chose_MainTopic_success: true}) )
+            .then( () => res.json({choose_MainTopic_success: true}) )
             .catch(e => console.error("PUT api/rooms/:roomid/topics/choose/",e));
     }else {
         Room.findOne({_id: req.params.roomid})
             .then(room => {
-                let shuffledSubTopics = shuffleArray(room.userSubTopics);
+                let shuffledSubTopics = shuffle(room.userSubTopics);
+                room.users = shuffle(room.users);
 
                 for(let i= 0; i< room.users.length; i++){
-                    room.users.subTopic[i] = shuffledSubTopics[i];
+                    room.users[i].subTopic = shuffledSubTopics[i].value;
+                    room.users[i].drawOrder = i+1;
+
                 }
+                room.markModified("users");
                 room.save().catch(e => {});
+
             })
-            .then( () => res.json({chose_SubTopics_success: true}) )
+            .then( () => res.json({choose_SubTopics_success: true}) )
             .catch(e => console.error("PUT api/rooms/:roomid/topics/choose/",e));
+    }
+
+});
+
+/************************
+ * Canvas administration
+ ***********************/
+
+/**
+ * POST api/rooms/canvas/:roomid/save/:userid/
+ *
+ * Saves a canvas string for a room or an user
+ */
+router.post("/canvas/:roomid/save/:userid", (req, res) => {
+    console.log("Saving Canvas...");
+    if(req.body.value == "Room"){
+        console.log("Is MainTopics");
+        Room.findOne({_id: req.params.roomid})
+            .then( room => {
+                console.log("Canvas saved to Room");
+               room.canvasData = req.data.canvasData;
+               room.activeOrder = room.activeOrder + 1;
+               console.log("DrawOrder", room.drawOrder);
+               room.save().catch(e => {});
+
+            })
+            .then( () => res.json({save_Room_canvas_success: true}) )
+            .catch(e => console.error("POST api/rooms/canvas/:roomid/save/:userid/",e));
+    }else {
+        Room.findOne({_id: req.params.roomid})
+            .then(room => {
+                console.log("Canvas saved for an user");
+                room.users.forEach( user => {
+                    if(user._id == req.params.userid){
+                        user.canvasData = req.body.canvasData;
+                    }
+                });
+                room.markModified("users");
+                room.save().catch(e => {});
+
+                let allUsersSentCanvas = true;
+                room.users.forEach( user => {
+
+                    if(user.canvasData == null){
+                        allUsersSentCanvas = false;
+                        return;
+                    }
+                });
+                console.log("All Users sent Canvas? ", allUsersSentCanvas);
+
+                if(allUsersSentCanvas){
+                    Room.updateMany(
+                        {_id: req.params.roomid},
+                        {isDrawRoom: false, isTempRoom: true},
+                    ).catch(e => console.error("POST api/rooms/:id",e));
+                }
+            })
+            .then( () => res.json({save_User_canvas_success: true}) )
+            .catch(e => console.error("POST api/rooms/canvas/:roomid/save/:userid/",e));
+    }
+
+});
+
+
+/**
+ * GET api/rooms/canvas/:roomid/get/:draworder
+ *
+ * Gets one or two canvas objects
+ */
+router.get("/canvas/:roomid/get/:draworder", (req, res) => {
+    console.log("Get Canvas...");
+    var canvas = {
+        first: "",
+        second: ""
+    };
+
+    if(req.params.draworder == "2"){
+        console.log("Get Canvas for Order 1 and 2");
+        Room.findOne({_id: req.params.roomid})
+            .then( room => {
+                room.users.forEach( user => {
+
+                    if(user.drawOrder == req.params.draworder-1){
+                        canvas.first = user.canvasData;
+                    }
+
+                    if(user.drawOrder == req.params.draworder){
+                        canvas.second = user.canvasData;
+                    }
+                });
+
+                console.log("Canvas Order 1+2 sent!")
+
+            })
+            .then( () => res.json(canvas) )
+            .catch(e => console.error("ERROR Order 1+2 GET api/rooms/canvas/:roomid/get/:draworder",e));
+    }else {
+        console.log("Get Canvas for", req.params.draworder, " and room.canvasData");
+        Room.findOne({_id: req.params.roomid})
+            .then(room => {
+                canvas.first = room.canvasData;
+
+                room.users.forEach( user => {
+
+                    if(user.drawOrder == req.params.draworder){
+                        canvas.second = user.canvasData;
+                    }
+                });
+                console.log("Canvas Order >2 sent!");
+
+            })
+            .then( () => res.json(canvas) )
+            .catch(e => console.error("ERROR Order >2 GET api/rooms/canvas/:roomid/get/:draworder",e));
     }
 
 });
