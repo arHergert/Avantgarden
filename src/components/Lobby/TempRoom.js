@@ -100,7 +100,25 @@ class TempRoom extends Component {
 
     };
 
+    setCurrentUser = () => {
+        this.props.room.users.forEach( user => {
+            if(user._id === this.props.userId){
+                this.state.currUser = user;
+            }
+        });
+    };
+
     componentDidMount() {
+
+        try{
+            this.setCurrentUser();
+
+            if(sessionStorage.getItem("drawOrder") != -1){
+                sessionStorage.setItem("drawOrder", this.state.currUser.drawOrder);
+            }
+        }catch (e) {
+
+        }
 
         //Canvas zum zeichenen (der obere)
         window.canvas = new fabric.Canvas('c');
@@ -360,6 +378,7 @@ class TempRoom extends Component {
           return (
               <div className={"draw-room_content-load"}>
                   <div className={"draw-room_text"}>
+                      {/*{sessionStorage.getItem("drawOrder")}*/}
                       Bitte warten! Du bist bald dran :)
                   </div>
                   <div className={"draw-room_load"}>

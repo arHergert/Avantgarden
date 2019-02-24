@@ -21,8 +21,6 @@ class CreateRoom extends Component {
         maxPersonError: false,
         roomId: null,
         userId: null
-
-
     };
 
     onSubmit = (event) => {
