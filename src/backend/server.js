@@ -14,7 +14,7 @@ server.listen(config.port, () => {
 
 //MongoDB Config
 mongoose.connect(config.mongodbUri, {useNewUrlParser: true})
-    .then(() => console.log("MongoDB connected on ", config.mongodbUri))
+    .then(() => console.log("MongoDB connected") )
     .catch(err => console.log(err));
 
 server.use(cors());

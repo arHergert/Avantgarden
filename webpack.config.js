@@ -40,7 +40,7 @@ module.exports = {
     },
     devServer: {
       historyApiFallback: true,
-      host: ip.address(), //Hier wird IP Adresse des PCs angeben, von dem aus gestartet wird
+      //host: "", //Alternative IP für den Dev-Server, statt localhost
       port: 8080
     },
     plugins: [

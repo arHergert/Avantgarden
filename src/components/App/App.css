@@ -49,11 +49,22 @@
 
 }
 
+@font-face {
+    font-family: "gordita";
+    src: url("https://fonts.luna1.co/gordita/hinted/hinted-Gordita-Regular.eot?#iefix") format("embedded-opentype"),
+    url("https://fonts.luna1.co/gordita/hinted/hinted-Gordita-Regular.woff2") format("woff2"),
+    url("https://fonts.luna1.co/gordita/hinted/hinted-Gordita-Regular.woff") format("woff"),
+    url("https://fonts.luna1.co/gordita/hinted/hinted-Gordita-Regular.ttf") format("truetype"),
+    url("https://fonts.luna1.co/gordita/hinted/hinted-Gordita-Regular.svg#Gordita-Regular") format("svg");
+    font-style: normal;
+    font-weight: normal;
+}
+
 /* ------------------------------------------------------------------------- *\
 # Body Styles
 \* ------------------------------------------------------------------------- */
 body {
-    font-family: sans-serif;
+    font-family: "gordita",sans-serif;
 }
 
 /* ------------------------------------------------------------------------- *\
@@ -63,7 +74,6 @@ body {
 /* Header Font */
 .header {
     font-family: 'Sansita', sans-serif;
-
     font-size: 2em;
     color: white;
 }
@@ -275,13 +285,13 @@ body {
 .room-form_btn {
     margin-top: 3em;
     font-size: 1.5em;
-    width: 23.5em;
+    width: 100%;
 }
 
 .room-form_btn_cancel {
     margin-top: 1em;
     font-size: 1.5em;
-    width: 23.5em;
+    width: 100%;
 }
 
 /* ------------------------------------------------------------------------- *\
