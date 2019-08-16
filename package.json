@@ -4,10 +4,9 @@
   "description": "Avantgarden  - Inspiration Draw App",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --open chrome --hot",
-    "build": "webpack --mode production",
     "server": "nodemon --exec babel-node ./src/backend/server.js",
-    "start": "npm run server & npm run dev "
+    "dev": "webpack-dev-server --mode development --open chrome --hot",
+    "start": "npm run server & npm run dev"
   },
   "author": "Artur Hergert und Jerome Spitzhirn",
   "dependencies": {

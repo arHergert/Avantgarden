@@ -20,13 +20,7 @@ npm start
 ``` 
    - Hot-Reload verfügbar (Änderungen werden sofort sichtbar, kein restart nötig)
    - Öffnet automatisch in Google Chrome
-   
----
 
-Im Production-Mode starten:
-```sh
-npm build
-```
 
   
 
